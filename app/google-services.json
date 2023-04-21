@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "116865768706",
+    "firebase_url": "https://ag5sordermanagement-default-rtdb.firebaseio.com",
+    "project_id": "ag5sordermanagement",
+    "storage_bucket": "ag5sordermanagement.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116865768706:android:ebb2ede87812a96fd4b61b",
+        "android_client_info": {
+          "package_name": "com.example.eugene"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116865768706-512c70vgma9mv0q2f20vgl0amcgnd146.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eugene",
+            "certificate_hash": "6b4f47aef394265d1aadaae99ecadfc04159d730"
+          }
+        },
+        {
+          "client_id": "116865768706-9iklpbdbneq83s9unb4acg74mb9cjouv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlkGcNb21deC9N56RpskON9QqvVEFqWvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116865768706-9iklpbdbneq83s9unb4acg74mb9cjouv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
