@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
                             User user =snapshot.child(edtPhone.getText().toString()).getValue(User.class);
                             if (user.getPassword().equals(edtPassword.getText().toString()))
                             {
-                                Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
+                                Intent home = new Intent(MainActivity.this,HomeActivity.class);
+                                startActivity(home);
                             }
                             else
                             {
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else
                         {
+                            progressDialog.dismiss();
                             Toast.makeText(MainActivity.this,"User Not Exist !",Toast.LENGTH_SHORT).show();
                         }
                     }
