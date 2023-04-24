@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eugene.Common.Common;
 import com.example.eugene.Model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
                             {
 //                                Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
                                 Intent home = new Intent(MainActivity.this,HomeActivity.class);
+                                Common.currentUser = user;
                                 startActivity(home);
+//                                finish();
                             }
                             else
                             {
