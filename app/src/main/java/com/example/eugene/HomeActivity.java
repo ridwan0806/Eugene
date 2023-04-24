@@ -6,6 +6,7 @@ import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,8 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
 
+    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
                             .setQuery(category, Category.class)
                             .build();
 
-            FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
+            adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
                 @Override
                 protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category model) {
                     holder.txtMenuName.setText(model.getName());
@@ -74,7 +77,10 @@ public class HomeActivity extends AppCompatActivity {
                     holder.setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position, boolean isLongClick) {
-                            Toast.makeText(HomeActivity.this, ""+clickItem.getName(), Toast.LENGTH_SHORT).show();
+                            Intent foodList = new Intent(HomeActivity.this,FoodList.class);
+                            foodList.putExtra("CategoryId",adapter.getRef(position).getKey());
+                            startActivity(foodList);
+//                            Toast.makeText(HomeActivity.this, ""+clickItem.getName(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
