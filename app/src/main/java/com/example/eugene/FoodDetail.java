@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eugene.Database.Database;
+import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Food;
+import com.example.eugene.Model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +30,8 @@ public class FoodDetail extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference foods;
+
+    Food currentFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,24 @@ public class FoodDetail extends AppCompatActivity {
         minusBtn = findViewById(R.id.minusBtn);
         picFood = findViewById(R.id.picFood);
 
+        minusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (numberOrder>1){
+                    numberOrder = numberOrder - 1;
+                }
+                numberOrderTxt.setText(String.valueOf(numberOrder));
+            }
+        });
+
+        plusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numberOrder = numberOrder + 1;
+                numberOrderTxt.setText(String.valueOf(numberOrder));
+            }
+        });
+
         //get foodId from intent
         if (getIntent() != null)
             foodId = getIntent().getStringExtra("FoodId");
@@ -59,28 +83,26 @@ public class FoodDetail extends AppCompatActivity {
         foods.child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Food food = snapshot.getValue(Food.class);
-                Glide.with(getBaseContext()).load(food.getImage()).into(picFood);
-                titleTxt.setText(food.getName());
-                priceTxt.setText("Rp "+food.getPrice());
+                currentFood = snapshot.getValue(Food.class);
+                Glide.with(getBaseContext()).load(currentFood.getImage()).into(picFood);
+                titleTxt.setText(currentFood.getName());
+                priceTxt.setText("Rp "+currentFood.getPrice());
 
-                minusBtn.setOnClickListener(new View.OnClickListener() {
+                addToCartBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (numberOrder>1){
-                            numberOrder = numberOrder - 1;
-                        }
-                        numberOrderTxt.setText(String.valueOf(numberOrder));
+                        MyDatabaseHelper myDB = new MyDatabaseHelper(FoodDetail.this);
+                        myDB.addToCart(new Order(
+                                    foodId,
+                                    currentFood.getName(),
+                                    String.valueOf(numberOrder),
+                                    currentFood.getPrice(),
+                                    currentFood.getDiscount()
+                                ));
+                        Toast.makeText(FoodDetail.this, "insert success", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                plusBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        numberOrder = numberOrder + 1;
-                        numberOrderTxt.setText(String.valueOf(numberOrder));
-                    }
-                });
             }
 
             @Override
