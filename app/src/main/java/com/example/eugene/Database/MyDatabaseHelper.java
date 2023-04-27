@@ -1,15 +1,20 @@
 package com.example.eugene.Database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.eugene.Model.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -62,7 +67,34 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME,null,cv);
     }
 
-    Cursor readAllData()
+//    @SuppressLint("Range")
+//    public List<Order> getCarts()
+//    {
+//        SQLiteDatabase db = getReadableDatabase();
+//        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+//
+//        String[] sqlSelect = {"ProductId","ProductName","Quantity","Price","Discount"};
+//        String sqlTable = "OrderDetail";
+//
+//        qb.setTables(sqlTable);
+//        Cursor c = qb.query(db,sqlSelect,null,null,null,null,null);
+//
+//        final List<Order> result = new ArrayList<>();
+//        if (c.moveToFirst())
+//        {
+//            do {
+//                result.add(new Order(c.getString(c.getColumnIndex("ProductId")),
+//                        c.getString(c.getColumnIndex("ProductName")),
+//                        c.getString(c.getColumnIndex("Quantity")),
+//                        c.getString(c.getColumnIndex("Price")),
+//                        c.getString(c.getColumnIndex("Discount"))
+//                ));
+//            } while (c.moveToNext());
+//        }
+//        return result;
+//    }
+
+    public Cursor readAllData()
     {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
