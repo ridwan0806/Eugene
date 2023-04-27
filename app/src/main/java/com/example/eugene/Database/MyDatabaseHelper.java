@@ -67,32 +67,42 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME,null,cv);
     }
 
-//    @SuppressLint("Range")
-//    public List<Order> getCarts()
-//    {
-//        SQLiteDatabase db = getReadableDatabase();
-//        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-//
-//        String[] sqlSelect = {"ProductId","ProductName","Quantity","Price","Discount"};
-//        String sqlTable = "OrderDetail";
-//
-//        qb.setTables(sqlTable);
-//        Cursor c = qb.query(db,sqlSelect,null,null,null,null,null);
-//
-//        final List<Order> result = new ArrayList<>();
-//        if (c.moveToFirst())
-//        {
-//            do {
-//                result.add(new Order(c.getString(c.getColumnIndex("ProductId")),
-//                        c.getString(c.getColumnIndex("ProductName")),
-//                        c.getString(c.getColumnIndex("Quantity")),
-//                        c.getString(c.getColumnIndex("Price")),
-//                        c.getString(c.getColumnIndex("Discount"))
-//                ));
-//            } while (c.moveToNext());
-//        }
-//        return result;
-//    }
+    @SuppressLint("Range")
+    public List<Order> getAllOrder() {
+
+        // sorting orders
+        String sortOrder =
+                COLUMN_PRODUCT_ID + " ASC";
+        List<Order> orderList = new ArrayList<Order>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        // Traversing through all rows and adding to list
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                Order order = new Order();
+
+                order.setProductId(cursor.getString(cursor.getColumnIndex("ProductId")));
+                order.setProductName(cursor.getString(cursor.getColumnIndex("ProductName")));
+                order.setQuantity(cursor.getString(cursor.getColumnIndex("Quantity")));
+                order.setPrice(cursor.getString(cursor.getColumnIndex("Price")));
+                order.setDiscount(cursor.getString(cursor.getColumnIndex("Discount")));
+
+                // Adding user record to list
+                orderList.add(order);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        // return user list
+        return orderList;
+    }
 
     public Cursor readAllData()
     {
