@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -34,6 +33,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context=context;
     }
 
     @Override
@@ -64,15 +64,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_QUANTITY, order.getQuantity());
         cv.put(COLUMN_PRICE, order.getPrice());
         cv.put(COLUMN_DISCOUNT, order.getDiscount());
+
         db.insert(TABLE_NAME,null,cv);
     }
 
     @SuppressLint("Range")
     public List<Order> getAllOrder() {
-
-        // sorting orders
-        String sortOrder =
-                COLUMN_PRODUCT_ID + " ASC";
         List<Order> orderList = new ArrayList<Order>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -83,16 +80,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
             do {
-
                 Order order = new Order();
-
+                order.setId(cursor.getString(cursor.getColumnIndex("_id")));
                 order.setProductId(cursor.getString(cursor.getColumnIndex("ProductId")));
                 order.setProductName(cursor.getString(cursor.getColumnIndex("ProductName")));
                 order.setQuantity(cursor.getString(cursor.getColumnIndex("Quantity")));
                 order.setPrice(cursor.getString(cursor.getColumnIndex("Price")));
                 order.setDiscount(cursor.getString(cursor.getColumnIndex("Discount")));
 
-                // Adding user record to list
                 orderList.add(order);
             } while (cursor.moveToNext());
         }
@@ -100,20 +95,43 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        // return user list
         return orderList;
     }
 
-    public Cursor readAllData()
+    public void cleanCart()
     {
-        String query = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = null;
-        if (db != null)
-        {
-            cursor =  db.rawQuery(query,null);
-        }
-        return cursor;
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME;
+        db.execSQL(query);
     }
+
+    public void updateCart(String row_id, String price, String qty)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_PRICE,price);
+        cv.put(COLUMN_QUANTITY,qty);
+
+        int result = db.update(TABLE_NAME,cv,"_id=?",new String[] {row_id});
+
+        if (result == -1){
+            Toast.makeText(context, "Update FAILED", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Update SUCCESS", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteCart(String Row_id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        int result = db.delete(TABLE_NAME,"_id=?",new String[] {Row_id});
+
+        if (result == -1){
+            Toast.makeText(context, "Delete FAILED", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Delete SUCCESS", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

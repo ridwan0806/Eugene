@@ -31,12 +31,10 @@ public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
-//    MyDatabaseHelper myDb;
     FirebaseDatabase database;
     DatabaseReference requests;
 
     List<Order> cart = new ArrayList<>();
-    ArrayList<String> productId,productName,qty,price,discount;
 
     CartAdapter cartAdapter;
 
@@ -65,18 +63,6 @@ public class Cart extends AppCompatActivity {
             }
         });
 
-//        myDb = new MyDatabaseHelper(Cart.this);
-//        productId = new ArrayList<>();
-//        productName = new ArrayList<>();
-//        qty = new ArrayList<>();
-//        price = new ArrayList<>();
-//        discount = new ArrayList<>();
-
-//        cartAdapter = new CartAdapter(Cart.this,list);
-//        recyclerView.setAdapter(cartAdapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(Cart.this));
-
-//        getListCart();
         loadListFood();
     }
 
@@ -107,6 +93,10 @@ public class Cart extends AppCompatActivity {
                 //submit to firebase (using system.CurrentMilli for key)
                 requests.child(String.valueOf(System.currentTimeMillis()))
                         .setValue(request);
+
+                //clean cart
+                new MyDatabaseHelper(getBaseContext()).cleanCart();
+                Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -136,23 +126,4 @@ public class Cart extends AppCompatActivity {
         txtTotalAll.setText(fmt.format(total));
     }
 
-//    private void getListCart() {
-//        Cursor cursor = myDb.readAllData();
-//        if (cursor.getCount() == 0)
-//        {
-//            Toast.makeText(this, "no data display", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        else
-//        {
-//            while (cursor.moveToNext())
-//            {
-//                productId.add(cursor.getString(1));
-//                productName.add(cursor.getString(2));
-//                qty.add(cursor.getString(3));
-//                price.add(cursor.getString(4));
-//                discount.add(cursor.getString(5));
-//            }
-//        }
-//    }
 }

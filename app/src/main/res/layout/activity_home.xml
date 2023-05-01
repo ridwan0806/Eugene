@@ -61,7 +61,7 @@
                     app:srcCompat="@drawable/profile" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName3"
+                    android:id="@+id/edtPriceCart"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="32dp"
@@ -90,7 +90,7 @@
                     android:background="@drawable/orange_light_banner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3">
+                    app:layout_constraintTop_toBottomOf="@+id/edtPriceCart">
 
                     <ImageView
                         android:id="@+id/imageView4"

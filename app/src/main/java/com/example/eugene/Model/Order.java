@@ -1,6 +1,7 @@
 package com.example.eugene.Model;
 
 public class Order {
+    private String Id;
     private String ProductId;
     private String ProductName;
     private String Quantity;
@@ -10,12 +11,21 @@ public class Order {
     public Order() {
     }
 
-    public Order(String productId, String productName, String quantity, String price, String discount) {
+    public Order(String id, String productId, String productName, String quantity, String price, String discount) {
+        Id = id;
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Price = price;
         Discount = discount;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public String getProductId() {

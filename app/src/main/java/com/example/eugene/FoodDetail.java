@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.eugene.Database.Database;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Food;
 import com.example.eugene.Model.Order;
@@ -93,6 +92,7 @@ public class FoodDetail extends AppCompatActivity {
                     public void onClick(View view) {
                         MyDatabaseHelper myDB = new MyDatabaseHelper(FoodDetail.this);
                         myDB.addToCart(new Order(
+                                    "",
                                     foodId,
                                     currentFood.getName(),
                                     String.valueOf(numberOrder),
