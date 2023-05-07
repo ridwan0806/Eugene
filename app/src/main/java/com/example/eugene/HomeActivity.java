@@ -20,6 +20,8 @@ import com.example.eugene.Adapter.CategoryAdapter;
 import com.example.eugene.Common.Common;
 import com.example.eugene.Interface.ItemClickListener;
 import com.example.eugene.Model.Category;
+import com.example.eugene.Model.Food;
+import com.example.eugene.ViewHolder.FavoriteFoodsViewHolder;
 import com.example.eugene.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -34,22 +36,75 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     FirebaseDatabase database;
-    DatabaseReference category;
+    DatabaseReference category,favoriteFoods;
 
     TextView txtFullName;
 
-    RecyclerView recycler_menu;
+    RecyclerView recyclerCategory,recyclerFavoriteFoods;
     RecyclerView.LayoutManager layoutManager;
 
-    FirebaseRecyclerAdapter<Category,MenuViewHolder> adapter;
+    FirebaseRecyclerAdapter<Category,MenuViewHolder> categoryAdapter;
+    FirebaseRecyclerAdapter<Food, FavoriteFoodsViewHolder> favoriteFoodsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        initLoadCategory();
+        initLoadFavoriteFoods();
         bottomNavigation();
 
+    }
+
+    private void initLoadFavoriteFoods() {
+        //init firebase
+        database = FirebaseDatabase.getInstance();
+        favoriteFoods = database.getReference("Foods");
+
+        recyclerFavoriteFoods = findViewById(R.id.recyclerViewFavoriteFoods);
+        layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        recyclerFavoriteFoods.setLayoutManager(layoutManager);
+
+        getFavoriteFoods();
+    }
+
+    private void getFavoriteFoods() {
+        FirebaseRecyclerOptions<Food> options =
+                new FirebaseRecyclerOptions.Builder<Food>()
+                        .setQuery(favoriteFoods.orderByChild("IsFavoriteFood").equalTo("1"),Food.class)
+                        .build();
+
+        favoriteFoodsAdapter = new FirebaseRecyclerAdapter<Food, FavoriteFoodsViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull FavoriteFoodsViewHolder holder, int position, @NonNull Food model) {
+                Glide.with(getBaseContext()).load(model.getImage()).into(holder.imageView);
+                holder.txtFoodName.setText(model.getName());
+
+                final Food local = model;
+
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Toast.makeText(HomeActivity.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public FavoriteFoodsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.viewholder_fav_foods, parent, false);
+
+                return new FavoriteFoodsViewHolder(view);
+            }
+        };
+        favoriteFoodsAdapter.startListening();
+        recyclerFavoriteFoods.setAdapter(favoriteFoodsAdapter);
+    }
+
+    private void initLoadCategory() {
         //init firebase
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
@@ -57,9 +112,47 @@ public class HomeActivity extends AppCompatActivity {
         txtFullName = findViewById(R.id.txtUserName);
         txtFullName.setText(Common.currentUser.getName());
 
-        recycler_menu = findViewById(R.id.recyclerViewCategory);
+        recyclerCategory = findViewById(R.id.recyclerViewCategory);
         layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        recycler_menu.setLayoutManager(layoutManager);
+        recyclerCategory.setLayoutManager(layoutManager);
+
+        getCategoryFoods();
+    }
+
+    private void getCategoryFoods() {
+        FirebaseRecyclerOptions<Category> options =
+                new FirebaseRecyclerOptions.Builder<Category>()
+                        .setQuery(category, Category.class)
+                        .build();
+
+        categoryAdapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category model) {
+                holder.txtMenuName.setText(model.getName());
+                Glide.with(getBaseContext()).load(model.getImage()).into(holder.imageView);
+
+                Category clickItem = model;
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Intent foodList = new Intent(HomeActivity.this,FoodList.class);
+                        foodList.putExtra("CategoryId",categoryAdapter.getRef(position).getKey());
+                        startActivity(foodList);
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.viewholder_category, parent, false);
+
+                return new MenuViewHolder(view);
+            }
+        };
+        categoryAdapter.startListening();
+        recyclerCategory.setAdapter(categoryAdapter);
     }
 
     private void bottomNavigation() {
@@ -84,41 +177,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-            FirebaseRecyclerOptions<Category> options =
-                    new FirebaseRecyclerOptions.Builder<Category>()
-                            .setQuery(category, Category.class)
-                            .build();
-
-            adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
-                @Override
-                protected void onBindViewHolder(@NonNull MenuViewHolder holder, int position, @NonNull Category model) {
-                    holder.txtMenuName.setText(model.getName());
-                    Glide.with(getBaseContext()).load(model.getImage()).into(holder.imageView);
-
-                    Category clickItem = model;
-                    holder.setItemClickListener(new ItemClickListener() {
-                        @Override
-                        public void onClick(View view, int position, boolean isLongClick) {
-                            Intent foodList = new Intent(HomeActivity.this,FoodList.class);
-                            foodList.putExtra("CategoryId",adapter.getRef(position).getKey());
-                            startActivity(foodList);
-//                            Toast.makeText(HomeActivity.this, ""+clickItem.getName(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                @NonNull
-                @Override
-                public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                    View view = LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.viewholder_category, parent, false);
-
-                    return new MenuViewHolder(view);
-                }
-            };
-            adapter.startListening();
-            recycler_menu.setAdapter(adapter);
+        getCategoryFoods();
+        getFavoriteFoods();
     }
 
 }

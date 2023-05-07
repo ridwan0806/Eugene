@@ -190,7 +190,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/recyclerViewCategory" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView2"
+                    android:id="@+id/recyclerViewFavoriteFoods"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="22dp"
@@ -210,7 +210,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewFavoriteFoods" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView3"
