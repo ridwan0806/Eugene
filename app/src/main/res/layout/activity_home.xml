@@ -213,7 +213,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/recyclerViewFavoriteFoods" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView3"
+                    android:id="@+id/recyclerViewFavoriteDrinks"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="22dp"

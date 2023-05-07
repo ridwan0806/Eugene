@@ -21,6 +21,7 @@ import com.example.eugene.Common.Common;
 import com.example.eugene.Interface.ItemClickListener;
 import com.example.eugene.Model.Category;
 import com.example.eugene.Model.Food;
+import com.example.eugene.ViewHolder.FavoriteDrinksViewHolder;
 import com.example.eugene.ViewHolder.FavoriteFoodsViewHolder;
 import com.example.eugene.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -36,15 +37,16 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     FirebaseDatabase database;
-    DatabaseReference category,favoriteFoods;
+    DatabaseReference category,favoriteFoods,favoriteDrinks;
 
     TextView txtFullName;
 
-    RecyclerView recyclerCategory,recyclerFavoriteFoods;
+    RecyclerView recyclerCategory,recyclerFavoriteFoods,recyclerFavoriteDrinks;
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<Category,MenuViewHolder> categoryAdapter;
-    FirebaseRecyclerAdapter<Food, FavoriteFoodsViewHolder> favoriteFoodsAdapter;
+    FirebaseRecyclerAdapter<Food,FavoriteFoodsViewHolder> favoriteFoodsAdapter;
+    FirebaseRecyclerAdapter<Food,FavoriteDrinksViewHolder> favoriteDrinksAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,54 @@ public class HomeActivity extends AppCompatActivity {
 
         initLoadCategory();
         initLoadFavoriteFoods();
+        initLoadFavoriteDrinks();
         bottomNavigation();
+    }
 
+    private void initLoadFavoriteDrinks() {
+        //init firebase
+        database = FirebaseDatabase.getInstance();
+        favoriteDrinks = database.getReference("Foods");
+
+        recyclerFavoriteDrinks = findViewById(R.id.recyclerViewFavoriteDrinks);
+        layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        recyclerFavoriteDrinks.setLayoutManager(layoutManager);
+
+        getFavoriteDrinks();
+    }
+
+    private void getFavoriteDrinks() {
+        FirebaseRecyclerOptions<Food> options =
+                new FirebaseRecyclerOptions.Builder<Food>()
+                        .setQuery(favoriteDrinks.orderByChild("IsFavoriteDrink").equalTo("1"),Food.class)
+                        .build();
+
+        favoriteDrinksAdapter = new FirebaseRecyclerAdapter<Food, FavoriteDrinksViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull FavoriteDrinksViewHolder holder, int position, @NonNull Food model) {
+                Glide.with(getBaseContext()).load(model.getImage()).into(holder.imageView);
+                holder.txtDrinkName.setText(model.getName());
+
+                final Food local = model;
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Toast.makeText(HomeActivity.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public FavoriteDrinksViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.viewholder_fav_drinks, parent, false);
+
+                return new FavoriteDrinksViewHolder(view);
+            }
+        };
+        favoriteDrinksAdapter.startListening();
+        recyclerFavoriteDrinks.setAdapter(favoriteDrinksAdapter);
     }
 
     private void initLoadFavoriteFoods() {
@@ -179,6 +227,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
         getCategoryFoods();
         getFavoriteFoods();
+        getFavoriteDrinks();
     }
 
 }
