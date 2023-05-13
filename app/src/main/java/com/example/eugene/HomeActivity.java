@@ -87,7 +87,10 @@ public class HomeActivity extends AppCompatActivity {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(HomeActivity.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(HomeActivity.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+                        Intent foodDetail = new Intent(HomeActivity.this,FoodDetail.class);
+                        foodDetail.putExtra("FoodId",favoriteDrinksAdapter.getRef(position).getKey());
+                        startActivity(foodDetail);
                     }
                 });
             }
@@ -134,7 +137,10 @@ public class HomeActivity extends AppCompatActivity {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(HomeActivity.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(HomeActivity.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+                        Intent foodDetail = new Intent(HomeActivity.this,FoodDetail.class);
+                        foodDetail.putExtra("FoodId",favoriteFoodsAdapter.getRef(position).getKey());
+                        startActivity(foodDetail);
                     }
                 });
             }
