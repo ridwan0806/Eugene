@@ -21,6 +21,7 @@ import com.example.eugene.EditCart;
 import com.example.eugene.Model.Order;
 import com.example.eugene.R;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +52,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.nameTxt.setText(order.getProductName());
         holder.qtyTxt.setText(order.getQuantity());
 
-        Locale locale = new Locale("en","US");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        int price = (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
+//        Locale locale = new Locale("in","ID");
+//        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
-        holder.priceTxt.setText(fmt.format(price));
+        NumberFormat formatter = new DecimalFormat("#,###");
+        double price = Math.round((Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity())));
+
+        holder.priceTxt.setText(formatter.format(price));
 
         holder.discountTxt.setText(order.getDiscount());
 

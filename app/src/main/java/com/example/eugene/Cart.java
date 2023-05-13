@@ -131,9 +131,9 @@ public class Cart extends AppCompatActivity {
         int total = 0;
         for (Order order:cart)
             total += (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
-        Locale locale = new Locale("en","US");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
+        Locale locale = new Locale("in","ID");
+        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
         txtTotalAll.setText(fmt.format(total));
     }
 
