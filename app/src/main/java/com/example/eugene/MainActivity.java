@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent home = new Intent(MainActivity.this,HomeActivity.class);
                                 Common.currentUser = user;
                                 startActivity(home);
-//                                finish();
+                                finish();
                             }
                             else
                             {

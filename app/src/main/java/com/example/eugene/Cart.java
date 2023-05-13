@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -66,6 +67,12 @@ public class Cart extends AppCompatActivity {
         loadListFood();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadListFood();
+    }
+
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("One More Step !");
@@ -97,6 +104,10 @@ public class Cart extends AppCompatActivity {
                 //clean cart
                 new MyDatabaseHelper(getBaseContext()).cleanCart();
                 Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
+
+                //redirect to home
+                Intent home = new Intent(Cart.this,HomeActivity.class);
+                startActivity(home);
                 finish();
             }
         });

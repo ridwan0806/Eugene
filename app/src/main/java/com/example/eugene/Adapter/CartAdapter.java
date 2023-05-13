@@ -81,6 +81,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 db.deleteCart(order.getId());
                 orderList.remove(position);
                 notifyItemRemoved(position);
+
+                Intent cart = new Intent(context,Cart.class);
+                context.startActivity(cart);
             }
         });
     }

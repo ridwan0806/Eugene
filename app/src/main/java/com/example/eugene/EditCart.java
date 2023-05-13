@@ -86,6 +86,7 @@ public class EditCart extends AppCompatActivity {
                 );
                 Intent showCart = new Intent(EditCart.this,Cart.class);
                 startActivity(showCart);
+                finish();
             }
         });
     }
