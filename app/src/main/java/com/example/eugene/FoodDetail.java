@@ -96,18 +96,24 @@ public class FoodDetail extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         MyDatabaseHelper myDB = new MyDatabaseHelper(FoodDetail.this);
-                        myDB.addToCart(new Order(
+
+                        int result =  myDB.checkItemExist(foodId);
+                        if (result == 0) {
+                            Toast.makeText(FoodDetail.this, "item ini sudah ada", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            myDB.addToCart(new Order(
                                     "",
                                     foodId,
                                     currentFood.getName(),
                                     String.valueOf(numberOrder),
                                     currentFood.getPrice(),
                                     currentFood.getDiscount()
-                                ));
-                        Toast.makeText(FoodDetail.this, "insert success", Toast.LENGTH_SHORT).show();
+                            ));
+                            Toast.makeText(FoodDetail.this, "item berhasil ditambah", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
-
             }
 
             @Override

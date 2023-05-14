@@ -18,6 +18,7 @@ import java.util.List;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
+    private Order order;
     private static final String DATABASE_NAME = "ag5sOrders";
     private static final int DATABASE_VERSION = 1;
 
@@ -54,6 +55,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public int checkItemExist(String row_id)
+    {
+        int check = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT ProductId FROM OrderDetail WHERE ProductId = ?",new String[] {row_id});
+        if (result.moveToFirst()) {
+            return check;
+        }
+        else {
+            check = 1;
+        }
+
+        return check;
+    }
+
     public void addToCart(Order order)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -70,15 +86,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public List<Order> getAllOrder() {
-        List<Order> orderList = new ArrayList<Order>();
+        List<Order> orderList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
-        // Traversing through all rows and adding to list
         if (cursor.moveToFirst()) {
-
             do {
                 Order order = new Order();
                 order.setId(cursor.getString(cursor.getColumnIndex("_id")));
@@ -87,14 +101,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 order.setQuantity(cursor.getString(cursor.getColumnIndex("Quantity")));
                 order.setPrice(cursor.getString(cursor.getColumnIndex("Price")));
                 order.setDiscount(cursor.getString(cursor.getColumnIndex("Discount")));
-
                 orderList.add(order);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
         db.close();
-
         return orderList;
     }
 
@@ -116,9 +128,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int result = db.update(TABLE_NAME,cv,"_id=?",new String[] {row_id});
 
         if (result == -1){
-            Toast.makeText(context, "Update FAILED", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Data gagal diubah", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Update SUCCESS", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Data berhasil diubah", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -128,9 +140,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int result = db.delete(TABLE_NAME,"_id=?",new String[] {Row_id});
 
         if (result == -1){
-            Toast.makeText(context, "Delete FAILED", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Data gagal dihapus", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Delete SUCCESS", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
         }
     }
 
