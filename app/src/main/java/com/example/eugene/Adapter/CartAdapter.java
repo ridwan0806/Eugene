@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eugene.Cart;
+import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.EditCart;
 import com.example.eugene.Model.Order;
@@ -52,27 +53,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.nameTxt.setText(order.getProductName());
         holder.qtyTxt.setText(order.getQuantity());
 
-//        Locale locale = new Locale("in","ID");
-//        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-
         NumberFormat formatter = new DecimalFormat("#,###");
-        double price = Math.round((Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity())));
+
+        double price = Math.round(Integer.parseInt(order.getPrice()));
+        double subtotal = Math.round((Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity())));
 
         holder.priceTxt.setText(formatter.format(price));
-
-        holder.discountTxt.setText(order.getDiscount());
+        holder.discountTxt.setText(formatter.format(subtotal));
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(context, "click", Toast.LENGTH_SHORT).show();
                 Intent editCart = new Intent(context, EditCart.class);
                 editCart.putExtra("id",String.valueOf(order.getId()));
                 editCart.putExtra("foodId",String.valueOf(order.getProductId()));
                 editCart.putExtra("nameFood",String.valueOf(order.getProductName()));
                 editCart.putExtra("price",String.valueOf(order.getPrice()));
                 editCart.putExtra("qty",String.valueOf(order.getQuantity()));
-                editCart.putExtra("discount",String.valueOf(order.getDiscount()));
+                editCart.putExtra("subtotal",String.valueOf(order.getSubtotal()));
                 context.startActivity(editCart);
             }
         });
@@ -80,7 +78,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyDatabaseHelper db = new MyDatabaseHelper(context);
+                DatabaseHelper db = new DatabaseHelper(context);
                 db.deleteCart(order.getId());
                 orderList.remove(position);
                 notifyItemRemoved(position);

@@ -6,18 +6,18 @@ public class Order {
     private String ProductName;
     private String Quantity;
     private String Price;
-    private String Discount;
+    private String Subtotal;
 
     public Order() {
     }
 
-    public Order(String id, String productId, String productName, String quantity, String price, String discount) {
+    public Order(String id, String productId, String productName, String quantity, String price, String subtotal) {
         Id = id;
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Price = price;
-        Discount = discount;
+        Subtotal = subtotal;
     }
 
     public String getId() {
@@ -60,11 +60,11 @@ public class Order {
         Price = price;
     }
 
-    public String getDiscount() {
-        return Discount;
+    public String getSubtotal() {
+        return Subtotal;
     }
 
-    public void setDiscount(String discount) {
-        Discount = discount;
+    public void setSubtotal(String subtotal) {
+        Subtotal = subtotal;
     }
 }

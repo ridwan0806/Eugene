@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Food;
 import com.example.eugene.Model.Order;
@@ -34,6 +35,7 @@ public class FoodDetail extends AppCompatActivity {
     DatabaseReference foods;
 
     Food currentFood;
+    double subtotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class FoodDetail extends AppCompatActivity {
         {
             getDetailFood(foodId);
         }
+
     }
 
     private void getDetailFood(String foodId) {
@@ -95,20 +98,21 @@ public class FoodDetail extends AppCompatActivity {
                 addToCartBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MyDatabaseHelper myDB = new MyDatabaseHelper(FoodDetail.this);
+                        DatabaseHelper myDB = new DatabaseHelper(FoodDetail.this);
 
                         int result =  myDB.checkItemExist(foodId);
                         if (result == 0) {
                             Toast.makeText(FoodDetail.this, "item ini sudah ada", Toast.LENGTH_SHORT).show();
                         }
                         else {
+                            subtotal = (Integer.parseInt(currentFood.getPrice()))*(numberOrder);
                             myDB.addToCart(new Order(
                                     "",
                                     foodId,
                                     currentFood.getName(),
                                     String.valueOf(numberOrder),
                                     currentFood.getPrice(),
-                                    currentFood.getDiscount()
+                                    String.valueOf(subtotal)
                             ));
                             Toast.makeText(FoodDetail.this, "item berhasil ditambah", Toast.LENGTH_SHORT).show();
                         }

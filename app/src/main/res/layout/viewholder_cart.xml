@@ -95,8 +95,8 @@
         android:layout_marginStart="8dp"
         android:text="100.000"
         android:textColor="#000"
-        android:textSize="12sp"
-        android:textStyle="italic|bold"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView20"
         app:layout_constraintStart_toEndOf="@+id/textView20"
         app:layout_constraintTop_toTopOf="@+id/textView20" />

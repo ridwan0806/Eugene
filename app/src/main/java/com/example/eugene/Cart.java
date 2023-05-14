@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.eugene.Adapter.CartAdapter;
 import com.example.eugene.Common.Common;
+import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Order;
 import com.example.eugene.Model.Request;
@@ -102,7 +103,7 @@ public class Cart extends AppCompatActivity {
                         .setValue(request);
 
                 //clean cart
-                new MyDatabaseHelper(getBaseContext()).cleanCart();
+                new DatabaseHelper(getBaseContext()).cleanCart();
                 Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
 
                 //redirect to home
@@ -123,7 +124,7 @@ public class Cart extends AppCompatActivity {
     }
 
     private void loadListFood() {
-        cart = new MyDatabaseHelper(this).getAllOrder();
+        cart = new DatabaseHelper(this).getAllOrder();
         cartAdapter = new CartAdapter(this,cart);
         recyclerView.setAdapter(cartAdapter);
 

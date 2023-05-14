@@ -15,14 +15,14 @@ import com.example.eugene.Model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyDatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private Order order;
-    private static final String DATABASE_NAME = "ag5sOrders";
+
+    private static final String DATABASE_NAME = "ag5sOrder";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME = "OrderDetail";
+    private static final String TABLE_NAME = "OrderItems";
 
     private static final String COLUMN_ID = "_id";
 
@@ -30,10 +30,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRODUCT_NAME = "ProductName";
     private static final String COLUMN_QUANTITY = "Quantity";
     private static final String COLUMN_PRICE = "Price";
-    private static final String COLUMN_DISCOUNT = "Discount";
     private static final String COLUMN_SUBTOTAL = "Subtotal";
 
-    public MyDatabaseHelper(@Nullable Context context) {
+    public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context=context;
     }
@@ -41,13 +40,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
-                        " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_PRODUCT_ID + " TEXT, " +
-                        COLUMN_PRODUCT_NAME + " TEXT, " +
-                        COLUMN_QUANTITY + " TEXT, " +
-                        COLUMN_PRICE + " TEXT, " +
-                        COLUMN_DISCOUNT + " TEXT, " +
-                        COLUMN_SUBTOTAL + " TEXT);";
+                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_PRODUCT_ID + " TEXT, " +
+                COLUMN_PRODUCT_NAME + " TEXT, " +
+                COLUMN_QUANTITY + " TEXT, " +
+                COLUMN_PRICE + " TEXT, " +
+                COLUMN_SUBTOTAL + " TEXT);";
         db.execSQL(query);
     }
 
@@ -61,7 +59,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     {
         int check = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result = db.rawQuery("SELECT ProductId FROM OrderDetail WHERE ProductId = ?",new String[] {row_id});
+        Cursor result = db.rawQuery("SELECT ProductId FROM OrderItems WHERE ProductId = ?",new String[] {row_id});
         if (result.moveToFirst()) {
             return check;
         }
@@ -147,5 +145,4 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Data berhasil dihapus", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

@@ -9,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 
 public class EditCart extends AppCompatActivity {
     TextView idCart,foodId,name,price,qty,discount,btnUpdate;
     ImageView btnPlus,btnMin;
-    String id,idFood,nameFood,priceFood,qtyFood,discountFood;
+    String id,idFood,nameFood,priceFood,qtyFood,subtotalFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +40,21 @@ public class EditCart extends AppCompatActivity {
                 && getIntent().hasExtra("nameFood")
                 && getIntent().hasExtra("price")
                 && getIntent().hasExtra("qty")
-                && getIntent().hasExtra("discount"))
+                && getIntent().hasExtra("subtotal"))
         {
             id = getIntent().getStringExtra("id");
             idFood = getIntent().getStringExtra("foodId");
             nameFood = getIntent().getStringExtra("nameFood");
             priceFood = getIntent().getStringExtra("price");
             qtyFood = getIntent().getStringExtra("qty");
-            discountFood = getIntent().getStringExtra("discount");
+            subtotalFood = getIntent().getStringExtra("subtotal");
 
             idCart.setText(id);
             foodId.setText(idFood);
             name.setText(nameFood);
             price.setText(priceFood);
             qty.setText(qtyFood);
-            discount.setText(discountFood);
+            discount.setText(subtotalFood);
         }
 
         final int[] numberOrder = {Integer.parseInt(qtyFood)};
@@ -79,7 +80,7 @@ public class EditCart extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyDatabaseHelper myDb = new MyDatabaseHelper(EditCart.this);
+                DatabaseHelper myDb = new DatabaseHelper(EditCart.this);
                 myDb.updateCart(id,
                         price.getText().toString().trim(),
                         qty.getText().toString().trim()
