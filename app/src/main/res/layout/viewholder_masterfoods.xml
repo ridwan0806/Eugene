@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:background="#f6f6f6">
+    android:background="#e9e9e9"
+    android:layout_marginBottom="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,14 +15,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="4dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/masterFoodImage"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="8dp"
@@ -35,21 +37,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif-black"
                     android:text="Nasi Putih"
                     android:textColor="#000"
-                    android:textSize="17sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/imageView10"
-                    app:layout_constraintTop_toTopOf="@+id/imageView10" />
+                    app:layout_constraintStart_toEndOf="@+id/masterFoodImage"
+                    app:layout_constraintTop_toTopOf="@+id/masterFoodImage" />
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/masterFoodPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rp 5.000"
                     android:textColor="#000"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="normal"
                     app:layout_constraintStart_toStartOf="@+id/masterFoodName"
                     app:layout_constraintTop_toBottomOf="@+id/masterFoodName" />
@@ -60,42 +63,43 @@
                     android:layout_height="wrap_content"
                     android:text="Kategori : "
                     android:textColor="#000"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="normal"
-                    app:layout_constraintStart_toStartOf="@+id/textView22"
-                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                    app:layout_constraintStart_toStartOf="@+id/masterFoodPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/masterFoodPrice" />
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/masterFoodCat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nasi"
                     android:textColor="#000"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="@+id/textView24"
                     app:layout_constraintStart_toEndOf="@+id/textView24"
                     app:layout_constraintTop_toTopOf="@+id/textView24" />
 
                 <ImageView
-                    android:id="@+id/imgMasterFoodDelete"
+                    android:id="@+id/masterFoodBtnDelete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imageView10"
+                    app:layout_constraintTop_toTopOf="@+id/masterFoodImage"
                     app:layout_constraintVertical_bias="0.19"
                     app:srcCompat="@drawable/ic_delete_24" />
 
                 <ImageView
-                    android:id="@+id/imgMasterFoodEdit"
+                    android:id="@+id/masterFoodBtnEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imgMasterFoodDelete"
-                    app:layout_constraintEnd_toStartOf="@+id/imgMasterFoodDelete"
-                    app:layout_constraintTop_toTopOf="@+id/imgMasterFoodDelete"
+                    app:layout_constraintBottom_toBottomOf="@+id/masterFoodBtnDelete"
+                    app:layout_constraintEnd_toStartOf="@+id/masterFoodBtnDelete"
+                    app:layout_constraintTop_toTopOf="@+id/masterFoodBtnDelete"
+                    app:layout_constraintVertical_bias="0.62"
                     app:srcCompat="@drawable/ic_edit_35" />
 
                 <TextView
@@ -104,11 +108,11 @@
                     android:layout_height="wrap_content"
                     android:text="edit"
                     android:textColor="#000"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:textStyle="normal"
-                    app:layout_constraintEnd_toStartOf="@+id/imgMasterFoodDelete"
-                    app:layout_constraintStart_toStartOf="@+id/imgMasterFoodEdit"
-                    app:layout_constraintTop_toBottomOf="@+id/imgMasterFoodEdit" />
+                    app:layout_constraintEnd_toStartOf="@+id/masterFoodBtnDelete"
+                    app:layout_constraintStart_toStartOf="@+id/masterFoodBtnEdit"
+                    app:layout_constraintTop_toBottomOf="@+id/masterFoodBtnEdit" />
 
                 <TextView
                     android:id="@+id/textView27"
@@ -116,11 +120,11 @@
                     android:layout_height="wrap_content"
                     android:text="delete"
                     android:textColor="#000"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:textStyle="normal"
-                    app:layout_constraintEnd_toEndOf="@+id/imgMasterFoodDelete"
-                    app:layout_constraintStart_toStartOf="@+id/imgMasterFoodDelete"
-                    app:layout_constraintTop_toBottomOf="@+id/imgMasterFoodDelete" />
+                    app:layout_constraintEnd_toEndOf="@+id/masterFoodBtnDelete"
+                    app:layout_constraintStart_toStartOf="@+id/masterFoodBtnDelete"
+                    app:layout_constraintTop_toBottomOf="@+id/masterFoodBtnDelete" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
