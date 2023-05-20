@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textView3" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/iconLogout"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="24dp"
@@ -78,9 +78,9 @@
                 android:text="Logout"
                 android:textSize="10sp"
                 android:textColor="#1e588f"
-                app:layout_constraintEnd_toEndOf="@+id/imageView"
-                app:layout_constraintStart_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintEnd_toEndOf="@+id/iconLogout"
+                app:layout_constraintStart_toStartOf="@+id/iconLogout"
+                app:layout_constraintTop_toBottomOf="@+id/iconLogout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

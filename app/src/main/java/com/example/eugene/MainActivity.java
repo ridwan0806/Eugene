@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         edtPhone = findViewById(R.id.edtPhone);
-        edtPassword = findViewById(R.id.edtPassword);
+        edtPassword = findViewById(R.id.edtPasswordNew);
         btnLogin = findViewById(R.id.btnLogIn);
 
         //init firebase
