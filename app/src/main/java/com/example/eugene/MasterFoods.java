@@ -1,14 +1,18 @@
 package com.example.eugene;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MasterFoods extends AppCompatActivity {
     RecyclerView recyclerViewMasterFoods;
     RecyclerView.LayoutManager layoutManager;
+    TextView btnAddFood;
     FirebaseDatabase database;
     DatabaseReference foodList;
     FirebaseRecyclerAdapter<Food, MasterFoodViewHolder>adapter;
@@ -34,6 +39,39 @@ public class MasterFoods extends AppCompatActivity {
         setContentView(R.layout.activity_master_foods);
 
         initView();
+        
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFoodShowDialog();
+            }
+        });
+    }
+
+    private void addFoodShowDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MasterFoods.this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View master_add_food_layout = inflater.inflate(R.layout.master_add_food,null);
+
+        // init form
+
+        alertDialog.setView(master_add_food_layout);
+        // set button
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override
@@ -46,6 +84,8 @@ public class MasterFoods extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         foodList = database.getReference("Foods");
 
+        btnAddFood = findViewById(R.id.masterFoodAddFood);
+        
         recyclerViewMasterFoods = findViewById(R.id.rvMasterFoods);
         layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerViewMasterFoods.setLayoutManager(layoutManager);

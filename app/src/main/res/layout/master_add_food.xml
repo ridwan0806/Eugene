@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/addFoodName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/search"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:hint="Find Product"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/addFoodPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/search"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:hint="Find Product"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/addFoodStock"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/search"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:hint="Find Product"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/addFoodQty"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/search"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:hint="Find Product"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/addFoodTest"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/search_background"
+            android:drawableStart="@drawable/search"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:hint="Find Product"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/blue_button"
+            android:elevation="3dp"
+            android:gravity="center"
+            android:text="Tambah Daftar Makanan"
+            android:textColor="#f6f6f6"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
