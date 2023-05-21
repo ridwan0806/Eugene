@@ -1,117 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
     
     <LinearLayout
-        android:layout_margin="20dp"
         android:orientation="vertical"
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <EditText
-            android:id="@+id/addFoodName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/search"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Find Product"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <EditText
-            android:id="@+id/addFoodPrice"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/search"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Find Product"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <EditText
-            android:id="@+id/addFoodStock"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/search"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Find Product"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <EditText
-            android:id="@+id/addFoodQty"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/search"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Find Product"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <EditText
-            android:id="@+id/addFoodTest"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/search"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:hint="Find Product"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/TextView23"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/blue_button"
-            android:elevation="3dp"
             android:gravity="center"
-            android:text="Tambah Daftar Makanan"
-            android:textColor="#f6f6f6"
+            android:background="#fff"
+            android:text="Tambah Makanan Baru"
+            android:textColor="#000"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="#fff"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/addFoodName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama Makanan"
+                android:textColorHint="#000"
+                tools:ignore="SpeakableTextPresentCheck"></EditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="#fff"
+            app:boxBackgroundMode="outline"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/addFoodPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Harga Jual (Rp)"
+                android:inputType="numberDecimal"
+                tools:ignore="SpeakableTextPresentCheck"></EditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/rdKategori"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/rdnasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:onClick="onRadioButtonClicked"
+                android:text="Nasi"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rdDaging"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:onClick="onRadioButtonClicked"
+                android:text="Daging"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rdIkan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:onClick="onRadioButtonClicked"
+                android:text="Ikan"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rdTambahan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:onClick="onRadioButtonClicked"
+                android:text="Tambahan"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <Button
+                    android:id="@+id/btnSelectImagefood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:text="Choose Image"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ImgCheckFoto"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnSelectImagefood"
+                    app:layout_constraintStart_toEndOf="@+id/btnSelectImagefood"
+                    app:layout_constraintTop_toTopOf="@+id/btnSelectImagefood"
+                    app:srcCompat="@drawable/icon_ceklis" />
+
+                <EditText
+                    android:id="@+id/txtInfoImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:minHeight="48dp"
+                    android:text="Foto Tersimpan. Silahkan Upload Terlebih Dahulu"
+                    android:textSize="11sp"
+                    android:textStyle="italic"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/ImgCheckFoto"
+                    app:layout_constraintStart_toEndOf="@+id/ImgCheckFoto"
+                    app:layout_constraintTop_toTopOf="@+id/ImgCheckFoto" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnUploadImagefood"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Upload Image"
+            android:textSize="11sp" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

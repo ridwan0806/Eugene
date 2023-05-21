@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String email, String password){
+        progressDialog.show();
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -61,11 +62,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.getResult().getUser()!=null) {
                         reload();
                     } else {
-                        Toast.makeText(LoginActivity.this, "login failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "User Not Found", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "login failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 }
+                progressDialog.dismiss();
             }
         });
     }

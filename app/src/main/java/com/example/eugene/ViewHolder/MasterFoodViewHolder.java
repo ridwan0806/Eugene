@@ -2,6 +2,7 @@ package com.example.eugene.ViewHolder;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
