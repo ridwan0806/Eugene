@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eugene.Common.MoneyTextWatcher;
 import com.example.eugene.Model.Foods;
 import com.example.eugene.ViewHolder.MasterFoodViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -44,6 +45,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -68,7 +70,8 @@ public class MasterFoods extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     EditText addFoodName,addFoodPrice;
-    double price;
+    String price = "";
+//    double price;
     Button selectImg,uploadImg;
     ImageView cekFoto;
     TextView cekFotoKet;
@@ -109,7 +112,16 @@ public class MasterFoods extends AppCompatActivity {
         alertDialog.setView(master_add_food_layout);
 
         addFoodName = master_add_food_layout.findViewById(R.id.addFoodName);
+
         addFoodPrice = master_add_food_layout.findViewById(R.id.addFoodPrice);
+        addFoodPrice.addTextChangedListener(new MoneyTextWatcher(addFoodPrice));
+        addFoodPrice.setText("0");
+
+//        String price = "";
+//        BigDecimal value = MoneyTextWatcher.parseCurrencyValue(addFoodPrice.getText().toString());
+//        price = String.valueOf(value);
+//        System.out.println(price);
+
         selectImg = master_add_food_layout.findViewById(R.id.btnSelectImagefood);
         uploadImg = master_add_food_layout.findViewById(R.id.btnUploadImagefood);
 //        spinner = master_add_food_layout.findViewById(R.id.addFoodCategory);
@@ -147,36 +159,36 @@ public class MasterFoods extends AppCompatActivity {
 //            }
 //        });
 
-        addFoodPrice.addTextChangedListener(new TextWatcher() {
-            private String setEditText = addFoodPrice.getText().toString().trim();
-            private String getValue = "";
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!charSequence.toString().equals(setEditText)){
-                    addFoodPrice.removeTextChangedListener(this);
-                    String replace = charSequence.toString().replaceAll("[Rp. ]","");
-                    if (!replace.isEmpty()){
-                        setEditText = formatRupiah(Double.parseDouble(replace));
-                    } else {
-                        setEditText = "";
-                    }
-                    addFoodPrice.setText(setEditText);
-                    addFoodPrice.setSelection(setEditText.length());
-                    addFoodPrice.addTextChangedListener(this);
-                    getValue = setEditText;
-                    System.out.println(getValue);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
+//        addFoodPrice.addTextChangedListener(new TextWatcher() {
+//            private String setEditText = addFoodPrice.getText().toString().trim();
+//            private String getValue = "";
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (!charSequence.toString().equals(setEditText)){
+//                    addFoodPrice.removeTextChangedListener(this);
+//                    String replace = charSequence.toString().replaceAll("[Rp. ]","");
+//                    if (!replace.isEmpty()){
+//                        setEditText = formatRupiah(Double.parseDouble(replace));
+//                    } else {
+//                        setEditText = "";
+//                    }
+//                    addFoodPrice.setText(setEditText);
+//                    addFoodPrice.setSelection(setEditText.length());
+//                    addFoodPrice.addTextChangedListener(this);
+//                    getValue = setEditText;
+//                    System.out.println(getValue);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//            }
+//        });
 
         selectImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,14 +230,14 @@ public class MasterFoods extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private String formatRupiah(Double number){
-        Locale localeID = new Locale("IND","ID");
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(localeID);
-        String formatrupiah = numberFormat.format(number);
-        String[] split = formatrupiah.split(",");
-        int length = split[0].length();
-        return split[0].substring(0,2)+". "+split[0].substring(2,length);
-    }
+//    private String formatRupiah(Double number){
+//        Locale localeID = new Locale("IND","ID");
+//        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(localeID);
+//        String formatrupiah = numberFormat.format(number);
+//        String[] split = formatrupiah.split(",");
+//        int length = split[0].length();
+//        return split[0].substring(0,2)+". "+split[0].substring(2,length);
+//    }
 
     public void onRadioButtonClicked(View view){
         boolean checked = ((RadioButton) view).isChecked();
@@ -254,9 +266,14 @@ public class MasterFoods extends AppCompatActivity {
     }
 
     private void uploadImage() {
+
+        BigDecimal value = MoneyTextWatcher.parseCurrencyValue(addFoodPrice.getText().toString());
+        price = String.valueOf(value);
+//        System.out.println(price);
+
         if (addFoodName.getText().toString().length() == 0) {
             Toast.makeText(this, "Nama Makanan Belum Diisi", Toast.LENGTH_SHORT).show();
-        } else if (addFoodPrice.getText().toString().length() == 0){
+        } else if (Integer.parseInt(price) == 0){
             Toast.makeText(this, "Harga Belum Di Setting", Toast.LENGTH_SHORT).show();
         } else if (categoryId == 0){
             Toast.makeText(this, "Kategori Belum Di Setting", Toast.LENGTH_SHORT).show();
@@ -281,7 +298,7 @@ public class MasterFoods extends AppCompatActivity {
                                 imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        newFood = new Foods(addFoodName.getText().toString(),uri.toString(),(Integer.parseInt(addFoodPrice.getText().toString())),categoryId,1,0,1);
+                                        newFood = new Foods(addFoodName.getText().toString(),uri.toString(),(Integer.parseInt(price)),categoryId,1,0,1);
                                     }
                                 });
                             }
