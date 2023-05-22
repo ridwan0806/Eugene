@@ -164,7 +164,7 @@ public class HomeActivity extends AppCompatActivity {
         category = database.getReference("Category");
 
         txtFullName = findViewById(R.id.txtUserName);
-        txtFullName.setText(Common.currentUser.getName());
+//        txtFullName.setText(Common.currentUser.getName());
 
         recyclerCategory = findViewById(R.id.recyclerViewCategory);
         layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);

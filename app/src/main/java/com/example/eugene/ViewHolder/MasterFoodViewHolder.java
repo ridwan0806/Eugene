@@ -1,21 +1,27 @@
 package com.example.eugene.ViewHolder;
 
+import android.content.Context;
+import android.content.Intent;
+import android.nfc.Tag;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eugene.Interface.ItemClickListener;
+import com.example.eugene.MasterDrinks;
 import com.example.eugene.R;
 
 public class MasterFoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+//    private static final String TAG = "MasterFoodViewHolder";
     public TextView food_name,food_price,food_category;
-    public ImageView food_image,food_edit,food_delete;
-
-    private ItemClickListener itemClickListener;
+    public ImageView food_image,btn_menu;
 
     public MasterFoodViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -24,8 +30,9 @@ public class MasterFoodViewHolder extends RecyclerView.ViewHolder implements Vie
         food_category = itemView.findViewById(R.id.masterFoodCat);
 
         food_image = itemView.findViewById(R.id.masterFoodImage);
-        food_delete = itemView.findViewById(R.id.masterFoodBtnDelete);
-        food_edit = itemView.findViewById(R.id.masterFoodBtnEdit);
+        btn_menu = itemView.findViewById(R.id.masterFoodBtnMenu);
+
+        btn_menu.setOnClickListener(this);
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Food;
+import com.example.eugene.Model.Foods;
 import com.example.eugene.Model.Order;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +35,7 @@ public class FoodDetail extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference foods;
 
-    Food currentFood;
+    Foods currentFood;
     double subtotal;
 
     @Override
@@ -90,7 +91,7 @@ public class FoodDetail extends AppCompatActivity {
         foods.child(foodId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentFood = snapshot.getValue(Food.class);
+                currentFood = snapshot.getValue(Foods.class);
                 Glide.with(getBaseContext()).load(currentFood.getImage()).into(picFood);
                 titleTxt.setText(currentFood.getName());
                 priceTxt.setText("Rp "+currentFood.getPrice());
@@ -105,13 +106,13 @@ public class FoodDetail extends AppCompatActivity {
                             Toast.makeText(FoodDetail.this, "item ini sudah ada", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            subtotal = (Integer.parseInt(currentFood.getPrice()))*(numberOrder);
+                            subtotal = currentFood.getPrice()*(numberOrder);
                             myDB.addToCart(new Order(
                                     "",
                                     foodId,
                                     currentFood.getName(),
                                     String.valueOf(numberOrder),
-                                    currentFood.getPrice(),
+                                    String.valueOf(currentFood.getPrice()),
                                     String.valueOf(subtotal)
                             ));
                             Toast.makeText(FoodDetail.this, "item berhasil ditambah", Toast.LENGTH_SHORT).show();

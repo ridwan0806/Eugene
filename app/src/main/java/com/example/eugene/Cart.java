@@ -129,13 +129,13 @@ public class Cart extends AppCompatActivity {
         recyclerView.setAdapter(cartAdapter);
 
         //calculate total all
-        int total = 0;
-        for (Order order:cart)
-            total += (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
+//        int total = 0;
+//        for (Order order:cart)
+//            total += (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
 
         Locale locale = new Locale("in","ID");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        txtTotalAll.setText(fmt.format(total));
+//        txtTotalAll.setText(fmt.format(total));
     }
 
 }

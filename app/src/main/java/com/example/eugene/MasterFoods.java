@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -117,11 +120,6 @@ public class MasterFoods extends AppCompatActivity {
         addFoodPrice.addTextChangedListener(new MoneyTextWatcher(addFoodPrice));
         addFoodPrice.setText("0");
 
-//        String price = "";
-//        BigDecimal value = MoneyTextWatcher.parseCurrencyValue(addFoodPrice.getText().toString());
-//        price = String.valueOf(value);
-//        System.out.println(price);
-
         selectImg = master_add_food_layout.findViewById(R.id.btnSelectImagefood);
         uploadImg = master_add_food_layout.findViewById(R.id.btnUploadImagefood);
 //        spinner = master_add_food_layout.findViewById(R.id.addFoodCategory);
@@ -156,37 +154,6 @@ public class MasterFoods extends AppCompatActivity {
 //            @Override
 //            public void onNothingSelected(AdapterView<?> adapterView) {
 //                Toast.makeText(MasterFoods.this, "", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-//        addFoodPrice.addTextChangedListener(new TextWatcher() {
-//            private String setEditText = addFoodPrice.getText().toString().trim();
-//            private String getValue = "";
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (!charSequence.toString().equals(setEditText)){
-//                    addFoodPrice.removeTextChangedListener(this);
-//                    String replace = charSequence.toString().replaceAll("[Rp. ]","");
-//                    if (!replace.isEmpty()){
-//                        setEditText = formatRupiah(Double.parseDouble(replace));
-//                    } else {
-//                        setEditText = "";
-//                    }
-//                    addFoodPrice.setText(setEditText);
-//                    addFoodPrice.setSelection(setEditText.length());
-//                    addFoodPrice.addTextChangedListener(this);
-//                    getValue = setEditText;
-//                    System.out.println(getValue);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
 //            }
 //        });
 
@@ -229,15 +196,6 @@ public class MasterFoods extends AppCompatActivity {
         });
         alertDialog.show();
     }
-
-//    private String formatRupiah(Double number){
-//        Locale localeID = new Locale("IND","ID");
-//        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(localeID);
-//        String formatrupiah = numberFormat.format(number);
-//        String[] split = formatrupiah.split(",");
-//        int length = split[0].length();
-//        return split[0].substring(0,2)+". "+split[0].substring(2,length);
-//    }
 
     public void onRadioButtonClicked(View view){
         boolean checked = ((RadioButton) view).isChecked();
@@ -373,7 +331,7 @@ public class MasterFoods extends AppCompatActivity {
                         .build();
         adapter = new FirebaseRecyclerAdapter<Foods, MasterFoodViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull MasterFoodViewHolder holder, int position, @NonNull Foods model) {
+            protected void onBindViewHolder(@NonNull MasterFoodViewHolder holder, @SuppressLint("RecyclerView") int position, @NonNull Foods model) {
                 Glide.with(getBaseContext()).load(model.getImage()).into(holder.food_image);
                 holder.food_name.setText(model.getName());
 
@@ -383,19 +341,32 @@ public class MasterFoods extends AppCompatActivity {
                 holder.food_price.setText(formatter.format(price));
                 holder.food_category.setText(String.valueOf(model.getCategoryId()));
 
-                holder.food_edit.setOnClickListener(new View.OnClickListener() {
+                holder.btn_menu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(MasterFoods.this, "edit", Toast.LENGTH_SHORT).show();
+                        PopupMenu popup = new PopupMenu(MasterFoods.this, holder.btn_menu);
+                        popup.getMenuInflater().inflate(R.menu.recycler_master_food, popup.getMenu());
+
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                int itemId = item.getItemId();
+                                if (itemId == R.id.foods_add_cart) {
+                                    Intent i = new Intent(getApplicationContext(), FoodDetail.class);
+                                    i.putExtra("FoodId",adapter.getRef(position).getKey());
+                                    startActivity(i);
+                                } else if (itemId == R.id.foods_edit){
+                                    Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+//                                    i.putExtra("FoodId",adapter.getRef(position).getKey());
+                                    startActivity(i);
+                                } // FOOD DELETE...
+                                return true;
+                            }
+                        });
+                        popup.show();
                     }
                 });
 
-                holder.food_delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MasterFoods.this, "delete", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             @NonNull

@@ -55,11 +55,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         NumberFormat formatter = new DecimalFormat("#,###");
 
-        double price = Math.round(Integer.parseInt(order.getPrice()));
-        double subtotal = Math.round((Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity())));
+//        double price = Math.round(Integer.parseInt(order.getPrice()));
+//        double subtotal = Math.round((Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity())));
 
-        holder.priceTxt.setText(formatter.format(price));
-        holder.discountTxt.setText(formatter.format(subtotal));
+//        holder.priceTxt.setText(formatter.format(price));
+//        holder.discountTxt.setText(formatter.format(subtotal));
 
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -81,50 +81,14 @@
                     app:layout_constraintTop_toTopOf="@+id/textView24" />
 
                 <ImageView
-                    android:id="@+id/masterFoodBtnDelete"
+                    android:id="@+id/masterFoodBtnMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="32dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/masterFoodImage"
-                    app:layout_constraintVertical_bias="0.19"
-                    app:srcCompat="@drawable/ic_delete_24" />
-
-                <ImageView
-                    android:id="@+id/masterFoodBtnEdit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/masterFoodBtnDelete"
-                    app:layout_constraintEnd_toStartOf="@+id/masterFoodBtnDelete"
-                    app:layout_constraintTop_toTopOf="@+id/masterFoodBtnDelete"
-                    app:layout_constraintVertical_bias="0.62"
-                    app:srcCompat="@drawable/ic_edit_35" />
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="edit"
-                    android:textColor="#000"
-                    android:textSize="10sp"
-                    android:textStyle="normal"
-                    app:layout_constraintEnd_toStartOf="@+id/masterFoodBtnDelete"
-                    app:layout_constraintStart_toStartOf="@+id/masterFoodBtnEdit"
-                    app:layout_constraintTop_toBottomOf="@+id/masterFoodBtnEdit" />
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="delete"
-                    android:textColor="#000"
-                    android:textSize="10sp"
-                    android:textStyle="normal"
-                    app:layout_constraintEnd_toEndOf="@+id/masterFoodBtnDelete"
-                    app:layout_constraintStart_toStartOf="@+id/masterFoodBtnDelete"
-                    app:layout_constraintTop_toBottomOf="@+id/masterFoodBtnDelete" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_menu_black" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
