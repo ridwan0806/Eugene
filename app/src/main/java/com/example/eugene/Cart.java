@@ -92,7 +92,8 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Request request = new Request(
-                        Common.currentUser.getName(),
+                        "",
+//                        Common.currentUser.getName(),
                         edtCustomerName.getText().toString(),
                         txtTotalAll.getText().toString(),
                         cart

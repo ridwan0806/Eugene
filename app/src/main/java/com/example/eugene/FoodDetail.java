@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eugene.Common.MoneyTextWatcher;
 import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Food;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.math.BigDecimal;
 
 public class FoodDetail extends AppCompatActivity {
 
@@ -94,7 +97,13 @@ public class FoodDetail extends AppCompatActivity {
                 currentFood = snapshot.getValue(Foods.class);
                 Glide.with(getBaseContext()).load(currentFood.getImage()).into(picFood);
                 titleTxt.setText(currentFood.getName());
-                priceTxt.setText("Rp "+currentFood.getPrice());
+
+                int prc = (int) Math.round(currentFood.getPrice());
+                System.out.println(prc);
+
+//                BigDecimal value = MoneyTextWatcher.parseCurrencyValue(String.valueOf(currentFood.getPrice()));
+//                priceTxt.setText(String.valueOf(value));
+                priceTxt.setText("Rp "+prc);
 
                 addToCartBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -112,7 +121,8 @@ public class FoodDetail extends AppCompatActivity {
                                     foodId,
                                     currentFood.getName(),
                                     String.valueOf(numberOrder),
-                                    String.valueOf(currentFood.getPrice()),
+                                    String.valueOf(prc),
+//                                    String.valueOf(currentFood.getPrice()),
                                     String.valueOf(subtotal)
                             ));
                             Toast.makeText(FoodDetail.this, "item berhasil ditambah", Toast.LENGTH_SHORT).show();
