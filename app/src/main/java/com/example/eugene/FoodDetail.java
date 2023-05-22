@@ -18,6 +18,7 @@ import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.Model.Food;
 import com.example.eugene.Model.Foods;
 import com.example.eugene.Model.Order;
+import com.example.eugene.Model.Orders;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -116,14 +117,13 @@ public class FoodDetail extends AppCompatActivity {
                         }
                         else {
                             subtotal = currentFood.getPrice()*(numberOrder);
-                            myDB.addToCart(new Order(
+                            myDB.addToCart(new Orders(
                                     "",
                                     foodId,
                                     currentFood.getName(),
-                                    String.valueOf(numberOrder),
-                                    String.valueOf(prc),
-//                                    String.valueOf(currentFood.getPrice()),
-                                    String.valueOf(subtotal)
+                                    numberOrder,
+                                    prc,
+                                    subtotal
                             ));
                             Toast.makeText(FoodDetail.this, "item berhasil ditambah", Toast.LENGTH_SHORT).show();
                         }

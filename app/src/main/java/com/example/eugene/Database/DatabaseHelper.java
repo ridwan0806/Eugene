@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.eugene.Model.Order;
+import com.example.eugene.Model.Orders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return check;
     }
 
-    public void addToCart(Order order)
+    public void addToCart(Orders order)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -85,8 +86,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public List<Order> getAllOrder() {
-        List<Order> orderList = new ArrayList<>();
+    public List<Orders> getAllOrder() {
+        List<Orders> orderList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -94,13 +95,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Order order = new Order();
+                Orders order = new Orders();
                 order.setId(cursor.getString(cursor.getColumnIndex("_id")));
                 order.setProductId(cursor.getString(cursor.getColumnIndex("ProductId")));
                 order.setProductName(cursor.getString(cursor.getColumnIndex("ProductName")));
-                order.setQuantity(cursor.getString(cursor.getColumnIndex("Quantity")));
-                order.setPrice(cursor.getString(cursor.getColumnIndex("Price")));
-                order.setSubtotal(cursor.getString(cursor.getColumnIndex("Subtotal")));
+                order.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex("Quantity"))));
+                order.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Price"))));
+                order.setSubtotal(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Subtotal"))));
                 orderList.add(order);
             } while (cursor.moveToNext());
         }

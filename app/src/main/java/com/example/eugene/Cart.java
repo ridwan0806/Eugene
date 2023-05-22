@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,10 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eugene.Adapter.CartAdapter;
-import com.example.eugene.Common.Common;
 import com.example.eugene.Database.DatabaseHelper;
-import com.example.eugene.Database.MyDatabaseHelper;
-import com.example.eugene.Model.Order;
+import com.example.eugene.Model.Orders;
 import com.example.eugene.Model.Request;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,7 +33,7 @@ public class Cart extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference requests;
 
-    List<Order> cart = new ArrayList<>();
+    List<Orders> cart = new ArrayList<Orders>();
 
     CartAdapter cartAdapter;
 
@@ -92,10 +89,10 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Request request = new Request(
-                        "",
-//                        Common.currentUser.getName(),
+                        "Ridwan Test",
+//                        GET NAME FROM LOGIN FIREBASE
                         edtCustomerName.getText().toString(),
-                        txtTotalAll.getText().toString(),
+                        Double.parseDouble(txtTotalAll.getText().toString()),
                         cart
                 );
 
@@ -108,7 +105,7 @@ public class Cart extends AppCompatActivity {
                 Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
 
                 //redirect to home
-                Intent home = new Intent(Cart.this,HomeActivity.class);
+                Intent home = new Intent(Cart.this,DashboardActivity.class);
                 startActivity(home);
                 finish();
             }
@@ -130,13 +127,14 @@ public class Cart extends AppCompatActivity {
         recyclerView.setAdapter(cartAdapter);
 
         //calculate total all
-//        int total = 0;
-//        for (Order order:cart)
-//            total += (Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
+        int total = 0;
+        for (Orders order:cart)
+            total += (order.getPrice())*(order.getQuantity());
 
-        Locale locale = new Locale("in","ID");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+//        Locale locale = new Locale("in","ID");
+//        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 //        txtTotalAll.setText(fmt.format(total));
+        txtTotalAll.setText(String.valueOf(total));
     }
 
 }

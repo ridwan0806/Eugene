@@ -5,13 +5,13 @@ import java.util.List;
 public class Request {
     private String createByUser;
     private String nameCustomer;
-    private String total;
-    private List<Order> foods;
+    double total;
+    private List<Orders> foods;
 
     public Request() {
     }
 
-    public Request(String createByUser, String nameCustomer, String total, List<Order> foods) {
+    public Request(String createByUser, String nameCustomer, double total, List<Orders> foods) {
         this.createByUser = createByUser;
         this.nameCustomer = nameCustomer;
         this.total = total;
@@ -34,19 +34,19 @@ public class Request {
         this.nameCustomer = nameCustomer;
     }
 
-    public String getTotal() {
+    public double getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 
-    public List<Order> getFoods() {
+    public List<Orders> getFoods() {
         return foods;
     }
 
-    public void setFoods(List<Order> foods) {
+    public void setFoods(List<Orders> foods) {
         this.foods = foods;
     }
 }

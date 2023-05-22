@@ -20,6 +20,7 @@ import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Database.MyDatabaseHelper;
 import com.example.eugene.EditCart;
 import com.example.eugene.Model.Order;
+import com.example.eugene.Model.Orders;
 import com.example.eugene.R;
 
 import java.text.DecimalFormat;
@@ -31,9 +32,9 @@ import java.util.Locale;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private Context context;
-    private List<Order> orderList;
+    private List<Orders> orderList;
 
-    public CartAdapter(Context context, List<Order> orderList) {
+    public CartAdapter(Context context, List<Orders> orderList) {
         this.context = context;
         this.orderList = orderList;
     }
@@ -47,16 +48,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Order order = orderList.get(position);
+        Orders order = orderList.get(position);
 
         holder.productIdTxt.setText(order.getProductId());
         holder.nameTxt.setText(order.getProductName());
-        holder.qtyTxt.setText(order.getQuantity());
-//        holder.priceTxt.setText(order.getPrice());
-        NumberFormat formatter = new DecimalFormat("#,###");
+        holder.qtyTxt.setText(String.valueOf(order.getQuantity()));
 
-        double price = Math.round(Integer.parseInt(order.getPrice()));
-        double subtotal = Math.round((Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity())));
+        NumberFormat formatter = new DecimalFormat("#,###");
+        double price = Math.round(order.getPrice());
+        double subtotal = Math.round((order.getPrice())*(order.getQuantity()));
 
         holder.priceTxt.setText(formatter.format(price));
         holder.discountTxt.setText(formatter.format(subtotal));

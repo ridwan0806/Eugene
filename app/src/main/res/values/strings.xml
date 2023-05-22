@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Eugene</string>
+    <string name="app_name">Ayam Goreng 5 Sambal System</string>
+    <string name="welcome">Welcome, </string>
+    <string name="logout">Logout</string>
+    
+    <string name="foods">Foods</string>
+    <string name="drinks">Drinks</string>
+    <string name="supplies">Supplies</string>
+    <string name="expense">Expense</string>
+
+
 </resources>
