@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nasi"
+        android:title="@string/nasi" />
+    <item
+        android:id="@+id/daging"
+        android:title="@string/daging" />
+    <item
+        android:id="@+id/ikan"
+        android:title="@string/ikan" />
+    <item
+        android:id="@+id/tambahan"
+        android:title="@string/tambahan" />
+</menu>

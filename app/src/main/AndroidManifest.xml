@@ -27,7 +27,7 @@
             android:name=".EditCart"
             android:exported="false" />
         <activity
-            android:name=".Cart"
+            android:name=".Activity.Cart"
             android:exported="false" />
         <activity
             android:name=".FoodDetail"

@@ -71,6 +71,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return check;
     }
 
+    public int checkFoodsExist(String row_id){
+        int isExist = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(ProductId) FROM OrderItems",new String[] {row_id});
+        if (cursor.moveToFirst()){
+            if (cursor.getString(0) == "0"){
+                isExist = 20;
+                System.out.println(isExist);
+            }
+        }
+        return  isExist;
+    }
+
     public void addToCart(Orders order)
     {
         SQLiteDatabase db = this.getWritableDatabase();

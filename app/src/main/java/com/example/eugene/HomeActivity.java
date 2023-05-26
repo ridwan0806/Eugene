@@ -2,7 +2,6 @@ package com.example.eugene;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.eugene.Adapter.CategoryAdapter;
-import com.example.eugene.Common.Common;
+import com.example.eugene.Activity.Cart;
 import com.example.eugene.Interface.ItemClickListener;
 import com.example.eugene.Model.Category;
 import com.example.eugene.Model.Food;
@@ -27,13 +24,8 @@ import com.example.eugene.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     FirebaseDatabase database;
@@ -216,7 +208,7 @@ public class HomeActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,Cart.class));
+                startActivity(new Intent(HomeActivity.this, Cart.class));
             }
         });
 

@@ -12,12 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.eugene.Common.MoneyTextWatcher;
+import com.example.eugene.Activity.Cart;
 import com.example.eugene.Database.DatabaseHelper;
-import com.example.eugene.Database.MyDatabaseHelper;
-import com.example.eugene.Model.Food;
 import com.example.eugene.Model.Foods;
-import com.example.eugene.Model.Order;
 import com.example.eugene.Model.Orders;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.math.BigDecimal;
 
 public class FoodDetail extends AppCompatActivity {
 
@@ -145,7 +140,7 @@ public class FoodDetail extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FoodDetail.this,Cart.class));
+                startActivity(new Intent(FoodDetail.this, Cart.class));
             }
         });
 

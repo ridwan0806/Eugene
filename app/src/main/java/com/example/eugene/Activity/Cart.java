@@ -1,4 +1,4 @@
-package com.example.eugene;
+package com.example.eugene.Activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,16 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eugene.Adapter.CartAdapter;
+import com.example.eugene.DashboardActivity;
 import com.example.eugene.Database.DatabaseHelper;
 import com.example.eugene.Model.Orders;
 import com.example.eugene.Model.Request;
+import com.example.eugene.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -105,7 +105,7 @@ public class Cart extends AppCompatActivity {
                 Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
 
                 //redirect to home
-                Intent home = new Intent(Cart.this,DashboardActivity.class);
+                Intent home = new Intent(Cart.this, DashboardActivity.class);
                 startActivity(home);
                 finish();
             }

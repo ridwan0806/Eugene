@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Ayam Goreng 5 Sambal System</string>
+
+    <!-- HOME-->
     <string name="welcome">Welcome, </string>
     <string name="logout">Logout</string>
     
@@ -7,6 +9,15 @@
     <string name="drinks">Drinks</string>
     <string name="supplies">Supplies</string>
     <string name="expense">Expense</string>
+
+    <!--ADD FOODS-->
+    <string name="nameFood">Nama Makanan</string>
+    <string name="priceFood">Harga Jual</string>
+    <string name="category">Pilih Kategori</string>
+    <string name="nasi">Nasi</string>
+    <string name="daging">Daging</string>
+    <string name="ikan">Ikan</string>
+    <string name="tambahan">Tambahan</string>
 
 
 </resources>

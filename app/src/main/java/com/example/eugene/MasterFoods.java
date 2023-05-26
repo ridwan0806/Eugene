@@ -14,26 +14,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eugene.Activity.Cart;
 import com.example.eugene.Common.MoneyTextWatcher;
 import com.example.eugene.Model.Foods;
 import com.example.eugene.ViewHolder.MasterFoodViewHolder;
@@ -51,9 +42,6 @@ import com.google.firebase.storage.UploadTask;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
 public class MasterFoods extends AppCompatActivity {
@@ -74,12 +62,7 @@ public class MasterFoods extends AppCompatActivity {
 
     EditText addFoodName,addFoodPrice;
     String price = "";
-//    double price;
-    Button selectImg,uploadImg;
-    ImageView cekFoto;
-    TextView cekFotoKet;
-    Spinner spinner;
-    private ArrayList<String> categoryName;
+    TextView addFoodCategory,selectImg,uploadImg;
     int categoryId = 0;
 
     Foods newFood;
@@ -115,47 +98,45 @@ public class MasterFoods extends AppCompatActivity {
         alertDialog.setView(master_add_food_layout);
 
         addFoodName = master_add_food_layout.findViewById(R.id.addFoodName);
+        addFoodCategory = master_add_food_layout.findViewById(R.id.addFoodCategory);
 
         addFoodPrice = master_add_food_layout.findViewById(R.id.addFoodPrice);
         addFoodPrice.addTextChangedListener(new MoneyTextWatcher(addFoodPrice));
-        addFoodPrice.setText("0");
 
         selectImg = master_add_food_layout.findViewById(R.id.btnSelectImagefood);
         uploadImg = master_add_food_layout.findViewById(R.id.btnUploadImagefood);
-//        spinner = master_add_food_layout.findViewById(R.id.addFoodCategory);
-        cekFoto = master_add_food_layout.findViewById(R.id.ImgCheckFoto);
-        cekFotoKet = master_add_food_layout.findViewById(R.id.txtInfoImage);
 
-//        categoryName = new ArrayList<>();
-//        categoryName.add("Nasi");
-//        categoryName.add("Daging");
-//        categoryName.add("Ikan");
-//        categoryName.add("Tambahan");
-//
-//        ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_item,categoryName);
-//        adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_item);
-//        spinner.setAdapter(adapterCategory);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (adapterCategory.getItem(i).equals("Nasi")){
-//                    categoryId = 1;
-//                } else if (adapterCategory.getItem(i).equals("Daging")){
-//                    categoryId = 2;
-//                } else if (adapterCategory.getItem(i).equals("Ikan")){
-//                    categoryId = 3;
-//                } else if (adapterCategory.getItem(i).equals("Tambahan")){
-//                    categoryId = 4;
-//                } else {
-//                    categoryId = 0;
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//                Toast.makeText(MasterFoods.this, "", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        addFoodCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryId = 0;
+                PopupMenu popup = new PopupMenu(MasterFoods.this, addFoodCategory);
+                popup.getMenuInflater().inflate(R.menu.category_foods, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int itemId = item.getItemId();
+                        if (itemId == R.id.nasi) {
+                            categoryId = 1;
+                            addFoodCategory.setText("Nasi");
+                        } else if (itemId == R.id.daging){
+                            categoryId = 2;
+                            addFoodCategory.setText("Daging");
+                        } else if (itemId == R.id.ikan){
+                            categoryId = 3;
+                            addFoodCategory.setText("Ikan");
+                        } else {
+                            categoryId = 4;
+                            addFoodCategory.setText("Tambahan");
+                        }
+                        System.out.println(categoryId);
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
 
         selectImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +144,7 @@ public class MasterFoods extends AppCompatActivity {
                 chooseImage();
             }
         });
-        
+
         uploadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,7 +157,7 @@ public class MasterFoods extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                if (uploadImg.getText().equals("Successfully Uploaded")){
+                if (uploadImg.getText().equals("Uploaded")){
                     // Insert to DB Foods
                     if (newFood != null) {
                         foodList.push().setValue(newFood);
@@ -197,45 +178,17 @@ public class MasterFoods extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public void onRadioButtonClicked(View view){
-        boolean checked = ((RadioButton) view).isChecked();
-        switch (view.getId()){
-            case R.id.rdnasi:
-                if (checked){
-                    categoryId = 1;
-                }
-                break;
-            case R.id.rdDaging:
-                if (checked){
-                    categoryId = 2;
-                }
-                break;
-            case R.id.rdIkan:
-                if (checked){
-                    categoryId = 3;
-                }
-                break;
-            case R.id.rdTambahan:
-                if (checked){
-                    categoryId = 4;
-                }
-                break;
-        }
-    }
-
     private void uploadImage() {
-
         BigDecimal value = MoneyTextWatcher.parseCurrencyValue(addFoodPrice.getText().toString());
         price = String.valueOf(value);
-//        System.out.println(price);
 
         if (addFoodName.getText().toString().length() == 0) {
             Toast.makeText(this, "Nama Makanan Belum Diisi", Toast.LENGTH_SHORT).show();
-        } else if (Integer.parseInt(price) == 0){
+        } else if (addFoodPrice.getText().toString().length() == 0){
             Toast.makeText(this, "Harga Belum Di Setting", Toast.LENGTH_SHORT).show();
         } else if (categoryId == 0){
             Toast.makeText(this, "Kategori Belum Di Setting", Toast.LENGTH_SHORT).show();
-        } else if (selectImg.getText().equals("Choose Image")){
+        } else if (selectImg.getText().equals("Select Image")){
             Toast.makeText(this, "Foto Belum Dipilih", Toast.LENGTH_SHORT).show();
         } else {
             if (saveUri != null){
@@ -251,8 +204,8 @@ public class MasterFoods extends AppCompatActivity {
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 mDialog.dismiss();
                                 Toast.makeText(MasterFoods.this, "berhasil diupload..", Toast.LENGTH_SHORT).show();
-                                selectImg.setText("Image Selected");
-                                uploadImg.setText("Successfully Uploaded");
+                                selectImg.setText("Selected");
+                                uploadImg.setText("Uploaded");
                                 imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
@@ -286,9 +239,7 @@ public class MasterFoods extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             saveUri = data.getData();
-            selectImg.setText("Image Selected");
-            cekFoto.setVisibility(View.VISIBLE);
-            cekFotoKet.setVisibility(View.VISIBLE);
+            selectImg.setText("Selected");
         }
     }
 
@@ -317,7 +268,6 @@ public class MasterFoods extends AppCompatActivity {
         recyclerViewMasterFoods = findViewById(R.id.rvMasterFoods);
         layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerViewMasterFoods.setLayoutManager(layoutManager);
-//        progressDialog.dismiss();
         loadListMasterFoods();
 
         // ADD NEW FOOD GROUP
@@ -356,7 +306,7 @@ public class MasterFoods extends AppCompatActivity {
                                     i.putExtra("FoodId",adapter.getRef(position).getKey());
                                     startActivity(i);
                                 } else if (itemId == R.id.foods_edit){
-                                    Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                                    Intent i = new Intent(getApplicationContext(), Cart.class);
 //                                    i.putExtra("FoodId",adapter.getRef(position).getKey());
                                     startActivity(i);
                                 } // FOOD DELETE...

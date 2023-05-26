@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.eugene.Activity.Cart;
 import com.example.eugene.Interface.ItemClickListener;
-import com.example.eugene.Model.Category;
 import com.example.eugene.Model.Food;
 import com.example.eugene.ViewHolder.FoodViewHolder;
-import com.example.eugene.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -113,7 +111,7 @@ public class FoodList extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FoodList.this,Cart.class));
+                startActivity(new Intent(FoodList.this, Cart.class));
             }
         });
 

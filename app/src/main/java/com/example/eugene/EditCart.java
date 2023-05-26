@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.eugene.Activity.Cart;
 import com.example.eugene.Database.DatabaseHelper;
-import com.example.eugene.Database.MyDatabaseHelper;
 
 public class EditCart extends AppCompatActivity {
     TextView idCart,foodId,name,price,qty,discount,btnUpdate;
@@ -85,7 +84,7 @@ public class EditCart extends AppCompatActivity {
                         price.getText().toString().trim(),
                         qty.getText().toString().trim()
                 );
-                Intent showCart = new Intent(EditCart.this,Cart.class);
+                Intent showCart = new Intent(EditCart.this, Cart.class);
                 startActivity(showCart);
                 finish();
             }
