@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/umum"
+        android:title="@string/umum" />
+    <item
+        android:id="@+id/online"
+        android:title="@string/Ojol" />
+    <item
+        android:id="@+id/karyawan"
+        android:title="@string/karyawan" />
+    <item
+        android:id="@+id/kerabat"
+        android:title="@string/kerabat" />
+</menu>

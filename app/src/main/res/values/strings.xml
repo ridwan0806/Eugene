@@ -19,5 +19,16 @@
     <string name="ikan">Ikan</string>
     <string name="tambahan">Tambahan</string>
 
+    <!--SUBMIT ORDER / DETAIL INFO ORDER -->
+    <string name="nameCustomer">Nama Konsumen</string>
+    <string name="orderType">Jenis Pesanan :</string>
+    <string name="rdDineIn">Dine In</string>
+    <string name="rdTakeAway">Take Away</string>
+    <string name="consumenType">Jenis Konsumen:</string>
+    <string name="umum">Umum</string>
+    <string name="Ojol">Online/Ojol</string>
+    <string name="karyawan">Karyawan</string>
+    <string name="kerabat">Kerabat/Tetangga</string>
+    <string name="notesOrder">Catatan Tambahan...</string>
 
 </resources>
