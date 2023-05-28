@@ -7,16 +7,14 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,8 +23,8 @@ import android.widget.Toast;
 import com.example.eugene.Adapter.CartAdapter;
 import com.example.eugene.DashboardActivity;
 import com.example.eugene.Database.DatabaseHelper;
+import com.example.eugene.Interface.ILoadTimeFromFirebaseListener;
 import com.example.eugene.Model.Orders;
-import com.example.eugene.Model.Request;
 import com.example.eugene.Model.RequestOrder;
 import com.example.eugene.Model.Users;
 import com.example.eugene.R;
@@ -38,7 +36,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Cart extends AppCompatActivity {
@@ -51,7 +51,6 @@ public class Cart extends AppCompatActivity {
     String uId,fullName;
     int branchId;
 
-//    List<Orders> cart = new ArrayList<Orders>();
     List<Orders> orderItem = new ArrayList<>();
 
     CartAdapter cartAdapter;
@@ -61,7 +60,7 @@ public class Cart extends AppCompatActivity {
     RadioGroup orderType;
     RadioButton rdDineIn,rdTakeAway;
 
-    int categoryTypeId;
+    int customerTypeId = 0;
     int orderTypeId = 0;
 
     @Override
@@ -157,7 +156,7 @@ public class Cart extends AppCompatActivity {
         consumenType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryTypeId = 0;
+                customerTypeId = 0;
                 PopupMenu popup = new PopupMenu(Cart.this, consumenType);
                 popup.getMenuInflater().inflate(R.menu.category_consumen, popup.getMenu());
 
@@ -166,21 +165,21 @@ public class Cart extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         int itemId = item.getItemId();
                         if (itemId == R.id.umum) {
-                            categoryTypeId = 1;
+                            customerTypeId = 1;
                             consumenType.setText("Umum");
                         } else if (itemId == R.id.online){
-                            categoryTypeId = 2;
+                            customerTypeId = 2;
                             consumenType.setText("Online / Ojol");
                         } else if (itemId == R.id.karyawan){
-                            categoryTypeId = 3;
+                            customerTypeId = 3;
                             consumenType.setText("Karyawan");
                         } else if (itemId == R.id.kerabat){
-                            categoryTypeId = 4;
+                            customerTypeId = 4;
                             consumenType.setText("Kerabat / Tetangga");
                         } else {
-                            categoryTypeId = 0;
+                            customerTypeId = 0;
                         }
-                        System.out.println(categoryTypeId);
+                        System.out.println(customerTypeId);
                         return true;
                     }
                 });
@@ -192,39 +191,7 @@ public class Cart extends AppCompatActivity {
         alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                RequestOrder requestOrder = new RequestOrder(
-                        branchId,
-                        fullName,
-                        customerName.getText().toString(),
-                        "timestamp",
-                        "Date",
-                        orderTypeId,
-                        categoryTypeId,
-                        "NEW",
-                        notes.getText().toString(),
-                        Integer.parseInt(subtotalItem.getText().toString()),
-                        Double.parseDouble(subtotalPrice.getText().toString()),
-                        0,
-                        0,
-                        1,
-                        0,
-                        "",
-                        "",
-                        "",
-                        orderItem
-                );
-                //submit to firebase (using system.CurrentMilli for key)
-                order.child(String.valueOf(System.currentTimeMillis()))
-                        .setValue(requestOrder);
-
-                //clean cart
-                new DatabaseHelper(getBaseContext()).cleanCart();
-                Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
-
-                //redirect to home
-                Intent home = new Intent(Cart.this, DashboardActivity.class);
-                startActivity(home);
-                finish();
+                submitOrderToFirebase();
             }
         });
 
@@ -238,66 +205,68 @@ public class Cart extends AppCompatActivity {
         alertDialog.show();
     }
 
-//    private void showAlertDialog() {
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
-//        alertDialog.setTitle("One More Step !");
-//        alertDialog.setMessage("Enter Customer Name: ");
-//
-//        final EditText edtCustomerName = new EditText(Cart.this);
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT
-//        );
-//        edtCustomerName.setLayoutParams(lp);
-//        alertDialog.setView(edtCustomerName);
-//        alertDialog.setIcon(R.drawable.shopping_cart);
-//
-//        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                Request request = new Request(
-//                        "Ridwan Test",
-//                        GET NAME FROM LOGIN FIREBASE
-//                        edtCustomerName.getText().toString(),
-//                        Double.parseDouble(txtTotalAll.getText().toString()),
-//                        cart
-//                );
-//
-//                //submit to firebase (using system.CurrentMilli for key)
-//                requests.child(String.valueOf(System.currentTimeMillis()))
-//                        .setValue(request);
-//
-//                //clean cart
-//                new DatabaseHelper(getBaseContext()).cleanCart();
-//                Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
-//
-//                //redirect to home
-//                Intent home = new Intent(Cart.this, DashboardActivity.class);
-//                startActivity(home);
-//                finish();
-//            }
-//        });
-//
-//        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//
-//        alertDialog.show();
-//    }
+    public void submitOrderToFirebase() {
+        // GET DATE INFORMATION--
+        final DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        offsetRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long offset = snapshot.getValue(Long.class);
+                long estimatedServerTimeMs = System.currentTimeMillis()+offset;
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+                Date resultDate = new Date(estimatedServerTimeMs);
+
+                // PREPARE TO SUBMIT FIREBASE --
+                RequestOrder requestOrder = new RequestOrder(
+                        branchId,
+                        orderTypeId,
+                        customerTypeId,
+                        Integer.parseInt(subtotalItem.getText().toString()),
+                        1,
+                        0,
+                        fullName,
+                        customerName.getText().toString(),
+                        resultDate.toString(),
+                        "NEW",
+                        notes.getText().toString(),
+                        "",
+                        "",
+                        "",
+                        Double.parseDouble(subtotalPrice.getText().toString()),
+                        0,
+                        0,
+                        orderItem,
+                        estimatedServerTimeMs
+                );
+
+                // SUBMIT ORDER TO FIREBASE (using system.CurrentMilli for key)
+                order.child(String.valueOf(System.currentTimeMillis()))
+                        .setValue(requestOrder);
+
+                // CLEAN CART (IN MEMORY DEVICE / SQLite)--
+                new DatabaseHelper(getBaseContext()).cleanCart();
+                Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
+
+                // REDIRECT PAGE--
+                Intent home = new Intent(Cart.this, DashboardActivity.class);
+                startActivity(home);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private void loadListFood() {
-//        cart = new DatabaseHelper(this).getAllOrder();
-//        cartAdapter = new CartAdapter(this,cart);
-//        recyclerView.setAdapter(cartAdapter);
-
         orderItem = new DatabaseHelper(this).getAllOrder();
         cartAdapter = new CartAdapter(this,orderItem);
         recyclerView.setAdapter(cartAdapter);
 
-        //calculate total all
+        // CALCULATE TOTAL ITEM & TOTAL PRICE--
         int total = 0;
         for (Orders order:orderItem)
             total += (order.getPrice())*(order.getQuantity());
