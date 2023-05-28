@@ -310,7 +310,7 @@ public class MasterFoods extends AppCompatActivity {
 //                                    i.putExtra("FoodId",adapter.getRef(position).getKey());
                                     startActivity(i);
                                 } else if (itemId == R.id.foods_delete){
-                                    Intent i = new Intent(getApplicationContext(), MasterDrinks.class);
+                                    Intent i = new Intent(getApplicationContext(), ManageUsers.class);
 //                                    i.putExtra("FoodId",adapter.getRef(position).getKey());
                                     startActivity(i);
                                 } // FOOD DELETE...

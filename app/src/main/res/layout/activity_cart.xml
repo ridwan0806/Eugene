@@ -15,7 +15,7 @@
         <ScrollView
             android:id="@+id/scrollView3"
             android:layout_width="match_parent"
-            android:layout_height="585dp"
+            android:layout_height="500dp"
             android:background="#f2f2f2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +60,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/txtSubtotalItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="subtotalItem"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/txtTotalAll"
+        app:layout_constraintEnd_toEndOf="@+id/txtTotalAll"
+        app:layout_constraintStart_toStartOf="@+id/txtTotalAll" />
 
     <TextView
         android:id="@+id/btnSubmitOrder"

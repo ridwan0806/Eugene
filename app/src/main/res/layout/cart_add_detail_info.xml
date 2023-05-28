@@ -24,7 +24,7 @@
         app:startIconDrawable="@drawable/ic_account_circle_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/consumenName"
+            android:id="@+id/edtCustomerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -73,12 +73,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
+                android:onClick="onRadioButtonClicked"
                 android:text="@string/rdDineIn" />
 
             <RadioButton
                 android:id="@+id/rdTakeAway"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
                 android:text="@string/rdTakeAway" />
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
