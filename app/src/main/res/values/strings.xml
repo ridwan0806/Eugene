@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Ayam Goreng 5 Sambal System</string>
 
+    <!-- GENERAL-->
+    <string name="required">required*</string>
+
     <!-- HOME-->
     <string name="welcome">Welcome, </string>
     <string name="logout">Logout</string>
-    
+
     <string name="foods">Foods</string>
     <string name="drinks">Drinks</string>
     <string name="supplies">Supplies</string>
@@ -30,5 +33,14 @@
     <string name="karyawan">Karyawan</string>
     <string name="kerabat">Kerabat/Tetangga</string>
     <string name="notesOrder">Catatan Tambahan...</string>
+
+    <!-- USER MODULE -->
+    <string name="user_add">Tambah User Baru</string>
+    <string name="name">Nama Lengkap</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="branch">Pilih Cabang</string>
+    <string name="cibatok">Cibatok</string>
+    <string name="cikampak">Cikampak (On Testing)</string>
 
 </resources>
