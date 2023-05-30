@@ -3,6 +3,7 @@ package com.example.eugene;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +57,10 @@ public class ManageUsers extends AppCompatActivity {
                         firebaseUser.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(ManageUsers.this, "success added", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ManageUsers.this, "User baru berhasil ditambahkan", Toast.LENGTH_SHORT).show();
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(ManageUsers.this,LoginActivity.class));
+                                finish();
                             }
                         });
                     } else {

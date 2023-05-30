@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -214,8 +215,14 @@ public class Cart extends AppCompatActivity {
                 long offset = snapshot.getValue(Long.class);
                 long estimatedServerTimeMs = System.currentTimeMillis()+offset;
 
-                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+                SimpleDateFormat createDateTime,date,time;
+                createDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                date = new SimpleDateFormat("yyyy-MM-dd");
+                time = new SimpleDateFormat("HH:mm");
+
+//                Locale locale = new Locale("id","ID");
                 Date resultDate = new Date(estimatedServerTimeMs);
+//                Log.d("CEK_DATE",""+sdf.format(resultDate));
 
                 // PREPARE TO SUBMIT FIREBASE --
                 RequestOrder requestOrder = new RequestOrder(
@@ -227,7 +234,10 @@ public class Cart extends AppCompatActivity {
                         0,
                         fullName,
                         customerName.getText().toString(),
-                        resultDate.toString(),
+                        createDateTime.format(resultDate),
+                        date.format(resultDate),
+                        time.format(resultDate),
+                        "",
                         "NEW",
                         notes.getText().toString(),
                         "",
@@ -246,7 +256,7 @@ public class Cart extends AppCompatActivity {
 
                 // CLEAN CART (IN MEMORY DEVICE / SQLite)--
                 new DatabaseHelper(getBaseContext()).cleanCart();
-                Toast.makeText(Cart.this, "Order Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Cart.this, "Pesanan sudah tersimpan", Toast.LENGTH_SHORT).show();
 
                 // REDIRECT PAGE--
                 Intent home = new Intent(Cart.this, DashboardActivity.class);

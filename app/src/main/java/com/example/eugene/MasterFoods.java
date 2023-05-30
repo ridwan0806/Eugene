@@ -62,7 +62,7 @@ public class MasterFoods extends AppCompatActivity {
 
     EditText addFoodName,addFoodPrice;
     String price = "";
-    TextView addFoodCategory,selectImg,uploadImg;
+    TextView addFoodCategory,attachImage;
     int categoryId = 0;
 
     Foods newFood;
@@ -103,8 +103,7 @@ public class MasterFoods extends AppCompatActivity {
         addFoodPrice = master_add_food_layout.findViewById(R.id.addFoodPrice);
         addFoodPrice.addTextChangedListener(new MoneyTextWatcher(addFoodPrice));
 
-        selectImg = master_add_food_layout.findViewById(R.id.btnSelectImagefood);
-        uploadImg = master_add_food_layout.findViewById(R.id.btnUploadImagefood);
+        attachImage = master_add_food_layout.findViewById(R.id.btnUploadImagefood);
 
         addFoodCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,34 +137,19 @@ public class MasterFoods extends AppCompatActivity {
             }
         });
 
-        selectImg.setOnClickListener(new View.OnClickListener() {
+        attachImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseImage();
             }
         });
-
-        uploadImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadImage();
-            }
-        });
         
-        // Submit to Firebase
+        // Step 1 : Upload image into firebase storage
+        // Step 2 : Insert new food into firebase database
         alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                if (uploadImg.getText().equals("Uploaded")){
-                    // Insert to DB Foods
-                    if (newFood != null) {
-                        foodList.push().setValue(newFood);
-                        Toast.makeText(MasterFoods.this, newFood.getName()+" berhasil ditambahkan", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MasterFoods.this, "Error ! Ada Kesalahan Input", Toast.LENGTH_SHORT).show();
-                }
+                uploadImage();
             }
         });
 
@@ -183,17 +167,17 @@ public class MasterFoods extends AppCompatActivity {
         price = String.valueOf(value);
 
         if (addFoodName.getText().toString().length() == 0) {
-            Toast.makeText(this, "Nama Makanan Belum Diisi", Toast.LENGTH_SHORT).show();
-        } else if (addFoodPrice.getText().toString().length() == 0){
-            Toast.makeText(this, "Harga Belum Di Setting", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Makanan belum diisi", Toast.LENGTH_SHORT).show();
+        } else if (addFoodPrice.getText().toString().length() == 0 || addFoodPrice.getText().toString().equals("Rp 0")){
+            Toast.makeText(this, "Harga belum ditentukan", Toast.LENGTH_SHORT).show();
         } else if (categoryId == 0){
-            Toast.makeText(this, "Kategori Belum Di Setting", Toast.LENGTH_SHORT).show();
-        } else if (selectImg.getText().equals("Select Image")){
-            Toast.makeText(this, "Foto Belum Dipilih", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Kategori belum dipilih", Toast.LENGTH_SHORT).show();
+        } else if (attachImage.getText().toString().equals("Lampirkan Foto")){
+            Toast.makeText(this, "Foto belum dipilih", Toast.LENGTH_SHORT).show();
         } else {
             if (saveUri != null){
                 ProgressDialog mDialog = new ProgressDialog(this);
-                mDialog.setMessage("Please Wait..");
+                mDialog.setMessage("Mohon tunggu..");
                 mDialog.show();
 
                 String imageName = UUID.randomUUID().toString();
@@ -202,14 +186,16 @@ public class MasterFoods extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                mDialog.dismiss();
-                                Toast.makeText(MasterFoods.this, "berhasil diupload..", Toast.LENGTH_SHORT).show();
-                                selectImg.setText("Selected");
-                                uploadImg.setText("Uploaded");
                                 imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         newFood = new Foods(addFoodName.getText().toString(),uri.toString(),(Integer.parseInt(price)),categoryId,1,0,1);
+                                        // INSERT NEW FOOD TO FIREBASE
+                                        if (newFood != null){
+                                            foodList.push().setValue(newFood);
+                                            mDialog.dismiss();
+                                            Toast.makeText(MasterFoods.this, newFood.getName()+" berhasil ditambahkan", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                             }
@@ -239,7 +225,7 @@ public class MasterFoods extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             saveUri = data.getData();
-            selectImg.setText("Selected");
+            attachImage.setText("Image Selected");
         }
     }
 
@@ -288,8 +274,22 @@ public class MasterFoods extends AppCompatActivity {
                 NumberFormat formatter = new DecimalFormat("#,###");
                 double price = model.getPrice();
 
+                int category = model.getCategoryId();
+                String categoryName;
+                if (category == 1){
+                    categoryName = "Nasi";
+                } else if (category == 2){
+                    categoryName = "Daging";
+                } else if (category == 3){
+                    categoryName = "Ikan";
+                } else {
+                    categoryName = "Tambahan";
+                }
+
                 holder.food_price.setText(formatter.format(price));
-                holder.food_category.setText(String.valueOf(model.getCategoryId()));
+
+                holder.food_category.setText(categoryName);
+//                holder.food_category.setText(String.valueOf(model.getCategoryId()));
 
                 holder.btn_menu.setOnClickListener(new View.OnClickListener() {
                     @Override

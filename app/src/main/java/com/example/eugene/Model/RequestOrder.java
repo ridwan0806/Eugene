@@ -4,15 +4,15 @@ import java.util.List;
 
 public class RequestOrder {
     int branchId,orderType,customerType,subtotalItem,isEnable,isCancel;
-    private String createByUser,nameCustomer,date,status,notes,cancelReason,editedByUser,editDateTime;
+    private String createByUser,nameCustomer,createDateTime,date,time,billDateTime,status,notes,cancelReason,editedByUser,editDateTime;
     double subtotalPrice,nominalPayment,change;
     private List<Orders> orderDetail;
-    private long createDateTime;
+    private long createDateTimeServer;
 
-    public RequestOrder(int branchId, int orderTypeId, int customerTypeId, int i, int i1, int i2, String fullName, String s, String s1, String aNew, String toString, String s2, String s3, String s4, double v, int i3, int i4, List<Orders> orderItem) {
+    public RequestOrder() {
     }
 
-    public RequestOrder(int branchId, int orderType, int customerType, int subtotalItem, int isEnable, int isCancel, String createByUser, String nameCustomer, String date, String status, String notes, String cancelReason, String editedByUser, String editDateTime, double subtotalPrice, double nominalPayment, double change, List<Orders> orderDetail, long createDateTime) {
+    public RequestOrder(int branchId, int orderType, int customerType, int subtotalItem, int isEnable, int isCancel, String createByUser, String nameCustomer, String createDateTime, String date, String time, String billDateTime, String status, String notes, String cancelReason, String editedByUser, String editDateTime, double subtotalPrice, double nominalPayment, double change, List<Orders> orderDetail, long createDateTimeServer) {
         this.branchId = branchId;
         this.orderType = orderType;
         this.customerType = customerType;
@@ -21,7 +21,10 @@ public class RequestOrder {
         this.isCancel = isCancel;
         this.createByUser = createByUser;
         this.nameCustomer = nameCustomer;
+        this.createDateTime = createDateTime;
         this.date = date;
+        this.time = time;
+        this.billDateTime = billDateTime;
         this.status = status;
         this.notes = notes;
         this.cancelReason = cancelReason;
@@ -31,7 +34,7 @@ public class RequestOrder {
         this.nominalPayment = nominalPayment;
         this.change = change;
         this.orderDetail = orderDetail;
-        this.createDateTime = createDateTime;
+        this.createDateTimeServer = createDateTimeServer;
     }
 
     public int getBranchId() {
@@ -98,12 +101,36 @@ public class RequestOrder {
         this.nameCustomer = nameCustomer;
     }
 
+    public String getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(String createDateTime) {
+        this.createDateTime = createDateTime;
+    }
+
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getBillDateTime() {
+        return billDateTime;
+    }
+
+    public void setBillDateTime(String billDateTime) {
+        this.billDateTime = billDateTime;
     }
 
     public String getStatus() {
@@ -178,11 +205,11 @@ public class RequestOrder {
         this.orderDetail = orderDetail;
     }
 
-    public long getCreateDateTime() {
-        return createDateTime;
+    public long getCreateDateTimeServer() {
+        return createDateTimeServer;
     }
 
-    public void setCreateDateTime(long createDateTime) {
-        this.createDateTime = createDateTime;
+    public void setCreateDateTimeServer(long createDateTimeServer) {
+        this.createDateTimeServer = createDateTimeServer;
     }
 }

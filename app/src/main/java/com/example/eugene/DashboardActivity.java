@@ -20,11 +20,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DashboardActivity extends AppCompatActivity {
+//    FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
-    FirebaseDatabase db;
-    DatabaseReference userList;
-    Users currentUser;
-    String uId;
+//    FirebaseDatabase db;
+//    DatabaseReference userList;
+//    Users currentUser;
+//    String uId;
 
     ImageView masterFood,masterDrink,masterRawMaterial,masterExpenses;
     ImageView cashier,addOrder,addPurchaseOrder,addRoutineExpense;
@@ -32,41 +33,78 @@ public class DashboardActivity extends AppCompatActivity {
 
     TextView username;
 
+    private static final int TIME_INTERVAL = 2000;
+    private long mBackPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        uId = firebaseUser.getUid();
         username = findViewById(R.id.textView4);
-        System.out.println(uId);
-        username.setText(uId);
 
-        db = FirebaseDatabase.getInstance();
-        userList = db.getReference("Users");
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser!=null){
+            username.setText(firebaseUser.getDisplayName());
+//            Toast.makeText(this, "login success", Toast.LENGTH_SHORT).show();
+        } else {
+            startActivity(new Intent(this,LoginActivity.class));
+            finish();
+        }
+//        uId = firebaseUser.getUid();
+//        System.out.println(uId);
+//        username.setText(uId);
 
-        getDataUser(uId);
+//        db = FirebaseDatabase.getInstance();
+//        userList = db.getReference("Users");
 
         initView();
         initIntent();
     }
 
-    private void getDataUser(String userId){
-        Toast.makeText(this, "userId is:"+userId, Toast.LENGTH_SHORT).show();
-        userList.child(uId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users user = snapshot.getValue(Users.class);
-                System.out.println(user.getBranch());
-            }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+////        uId = firebaseUser.getUid();
+//        if(currentUser != null){
+//            Toast.makeText(this, "user already login", Toast.LENGTH_SHORT).show();
+////            getDataUser(uId);
+//        } else {
+//            startActivity(new Intent(this,LoginActivity.class));
+////            finish();
+//        }
+//    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    @Override
+    public void onBackPressed(){
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else {
+            Toast.makeText(getBaseContext(), "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
+        }
+        mBackPressed = System.currentTimeMillis();
     }
+
+//    private void getDataUser(String userId){
+//        Toast.makeText(this, "userId is:"+userId, Toast.LENGTH_SHORT).show();
+//        userList.child(uId).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Users user = snapshot.getValue(Users.class);
+//                System.out.println(user.getBranch());
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     private void initIntent() {
         masterFood.setOnClickListener(new View.OnClickListener() {
