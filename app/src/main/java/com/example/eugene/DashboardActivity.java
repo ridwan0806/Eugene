@@ -1,6 +1,5 @@
 package com.example.eugene;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,14 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.eugene.Model.Users;
+import com.example.eugene.Activity.Cashier;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class DashboardActivity extends AppCompatActivity {
 //    FirebaseAuth mAuth;
@@ -118,7 +112,8 @@ public class DashboardActivity extends AppCompatActivity {
         masterDrink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DashboardActivity.this, "ini master drink", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(DashboardActivity.this, Cashier.class);
+                startActivity(i);
             }
         });
 

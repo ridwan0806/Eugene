@@ -44,4 +44,11 @@
     <string name="cibatok">Cibatok</string>
     <string name="cikampak">Cikampak (On Testing)</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="cashier_inprocess">List In Process</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="cashier_complete">List Complete</string>
+
+    <string name="cashierHeader">Daftar Penjualan Hari ini</string>
+
 </resources>
