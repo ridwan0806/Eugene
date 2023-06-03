@@ -1,4 +1,4 @@
-package com.example.eugene.Fragment;
+package com.example.eugene;
 
 import android.os.Bundle;
 
@@ -7,16 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.eugene.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CashierComplete#newInstance} factory method to
+ * Use the {@link CashierCancel#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CashierComplete extends Fragment {
+public class CashierCancel extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +24,7 @@ public class CashierComplete extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CashierComplete() {
+    public CashierCancel() {
         // Required empty public constructor
     }
 
@@ -37,11 +34,11 @@ public class CashierComplete extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CashierComplete.
+     * @return A new instance of fragment CashierCancel.
      */
     // TODO: Rename and change types and number of parameters
-    public static CashierComplete newInstance(String param1, String param2) {
-        CashierComplete fragment = new CashierComplete();
+    public static CashierCancel newInstance(String param1, String param2) {
+        CashierCancel fragment = new CashierCancel();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,13 +59,6 @@ public class CashierComplete extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-//        loadListComplete();
-
-        return inflater.inflate(R.layout.fragment_cashier_complete, container, false);
-    }
-
-    private void loadListComplete() {
-        Toast.makeText(getContext(), "Tes", Toast.LENGTH_SHORT).show();
+        return inflater.inflate(R.layout.fragment_cashier_cancel, container, false);
     }
 }

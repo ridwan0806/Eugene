@@ -50,5 +50,9 @@
     <string name="cashier_complete">List Complete</string>
 
     <string name="cashierHeader">Daftar Penjualan Hari ini</string>
+    <string name="statusComplete">Selesai</string>
+    <string name="statusCancel">Batalkan</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
