@@ -22,8 +22,12 @@ import android.widget.Toast;
 import com.bumptech.glide.manager.RequestManagerFragment;
 import com.example.eugene.Activity.Cart;
 import com.example.eugene.FoodDetail;
+import com.example.eugene.FoodList;
+import com.example.eugene.Interface.ItemClickListener;
 import com.example.eugene.MasterDrinks;
+import com.example.eugene.Model.Food;
 import com.example.eugene.Model.RequestOrder;
+import com.example.eugene.OrderDetail;
 import com.example.eugene.R;
 import com.example.eugene.ViewHolder.MasterFoodViewHolder;
 import com.example.eugene.ViewHolder.OrderProcessViewHolder;
@@ -114,6 +118,10 @@ public class CashierInProcess extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        loadListProcess();
+    }
+
+    private void loadListProcess() {
         FirebaseRecyclerOptions<RequestOrder> options =
                 new FirebaseRecyclerOptions.Builder<RequestOrder>()
                         .setQuery(orders.orderByChild("time"),RequestOrder.class)
@@ -146,6 +154,17 @@ public class CashierInProcess extends Fragment {
                             }
                         });
                         popupMenu.show();
+                    }
+                });
+
+
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+//                        Toast.makeText(getContext(), ""+model.getNameCustomer(), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getContext(), OrderDetail.class);
+                        i.putExtra("OrderId",adapter.getRef(position).getKey());
+                        startActivity(i);
                     }
                 });
             }

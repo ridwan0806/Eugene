@@ -44,13 +44,18 @@
     <string name="cibatok">Cibatok</string>
     <string name="cikampak">Cikampak (On Testing)</string>
 
+    <!-- ORDER DETAIL MODULE -->
+    <string name="orderDetailHeader">Detail Informasi Pesanan</string>
+        <string name="orderDetailUniqeId">Kode Transaksi :</string>
+        <string name="orderDetailDateTime">Waktu Pemesanan :</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cashier_inprocess">List In Process</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cashier_complete">List Complete</string>
 
     <string name="cashierHeader">Daftar Penjualan Hari ini</string>
-    <string name="statusComplete">Selesai</string>
+    <string name="statusComplete">Pembayaran</string>
     <string name="statusCancel">Batalkan</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
