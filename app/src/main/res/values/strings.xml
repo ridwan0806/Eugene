@@ -49,6 +49,11 @@
         <string name="orderDetailUniqeId">Kode Transaksi :</string>
         <string name="orderDetailDateTime">Waktu Pemesanan :</string>
 
+        <!-- RECYCLERVIEW - ORDER PROCESS DETAIL ITEM -->
+            <string name="harga_jual">Harga Jual :</string>
+            <string name="qty">Jumlah Pesanan :</string>
+            <string name="subtotal_pesanan">Total :</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cashier_inprocess">List In Process</string>
     <!-- TODO: Remove or change this placeholder text -->

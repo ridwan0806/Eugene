@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +40,15 @@ public class CashierProcessOrderDetailAdapter extends RecyclerView.Adapter<Cashi
     public void onBindViewHolder(@NonNull CashierProcessOrderDetailAdapter.ViewHolder holder, int position) {
         Orders detailItem = detailOrder.get(position);
         holder.foodName.setText(detailItem.getProductName());
+        holder.price.setText(String.valueOf(detailItem.getPrice()));
+        holder.qty.setText(String.valueOf(detailItem.getQuantity()));
         holder.subtotal.setText(String.valueOf(detailItem.getSubtotal()));
+        holder.btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -47,12 +57,16 @@ public class CashierProcessOrderDetailAdapter extends RecyclerView.Adapter<Cashi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView foodName,subtotal;
+        TextView foodName,price,qty,subtotal;
+        ImageView btnMenu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.txtRVCashierProcessFoodName);
-            subtotal = itemView.findViewById(R.id.txtRVCashierProcessSubtotalPrice);
+            price = itemView.findViewById(R.id.txtRVCashierProcessFoodPrice);
+            qty = itemView.findViewById(R.id.txtRVCashierProcessFoodQty);
+            subtotal = itemView.findViewById(R.id.txtRVCashierProcessFoodSubtotal);
+            btnMenu = itemView.findViewById(R.id.btnRVCashierProcessAction);
         }
     }
 }
