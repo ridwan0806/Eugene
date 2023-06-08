@@ -124,7 +124,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/home_foods" />
+                                app:srcCompat="@drawable/new_home_foods" />
 
                             <TextView
                                 android:id="@+id/txtDashboardFood"
@@ -166,7 +166,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/home_drink2" />
+                                app:srcCompat="@drawable/new_home_payment" />
 
                             <TextView
                                 android:id="@+id/txtDashboardDrink"
@@ -208,7 +208,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/home_suplies" />
+                                app:srcCompat="@drawable/new_home_supplies" />
 
                             <TextView
                                 android:id="@+id/txtDashboardRaw"
@@ -249,7 +249,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/home_cart2" />
+                                app:srcCompat="@drawable/new_home_cart" />
 
                             <TextView
                                 android:id="@+id/txtDashboardCart"

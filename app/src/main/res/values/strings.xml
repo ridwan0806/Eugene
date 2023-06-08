@@ -54,6 +54,10 @@
             <string name="qty">Jumlah Pesanan :</string>
             <string name="subtotal_pesanan">Total :</string>
 
+            <string name="edit_price">Ubah Harga Jual</string>
+            <string name="edit_qty">Ubah Jumlah Pesanan</string>
+            <string name="delete_item">Hapus Item Ini</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cashier_inprocess">List In Process</string>
     <!-- TODO: Remove or change this placeholder text -->

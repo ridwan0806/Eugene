@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cashier_item_edit_price"
+        android:title="@string/edit_price" />
+    <item
+        android:id="@+id/cashier_item_edit_qty"
+        android:title="@string/edit_qty" />
+    <item
+        android:id="@+id/cashier_item_delete_food"
+        android:title="@string/delete_item" />
+</menu>
