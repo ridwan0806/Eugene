@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.eugene.Model.Orders;
 import com.example.eugene.Model.RequestOrder;
+import com.example.eugene.Model.RequestOrders;
 import com.example.eugene.ViewHolder.OrderDetailViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -39,7 +41,7 @@ public class OrderDetail extends AppCompatActivity {
     FirebaseRecyclerAdapter<Orders, OrderDetailViewHolder>adapter;
 
     String orderId = "";
-    RequestOrder currentOrder;
+    RequestOrders currentOrder;
     TextView orderName,orderKey;
 
     @Override
@@ -75,18 +77,20 @@ public class OrderDetail extends AppCompatActivity {
         order.child(orderId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentOrder = snapshot.getValue(RequestOrder.class);
+//                System.out.println(snapshot);
+                currentOrder = snapshot.getValue(RequestOrders.class);
                 orderName.setText(currentOrder.getNameCustomer());
                 orderKey.setText(orderId);
 
                 List<Orders> orderItem = new ArrayList<>();
 
                 for (DataSnapshot ds : snapshot.getChildren()){
+//                    System.out.println(ds);
                         if (ds.exists()){
                             for (DataSnapshot dataSnapshot:ds.getChildren()){
                                 if (dataSnapshot.exists()){
                                     orderItem.add(dataSnapshot.getValue(Orders.class));
-//                                    System.out.println(orderItem); CEK LOOPING
+                                    System.out.println(dataSnapshot);
                                 }
                             }
                         }
@@ -120,7 +124,10 @@ public class OrderDetail extends AppCompatActivity {
                                             Toast.makeText(OrderDetail.this, "edit qty", Toast.LENGTH_SHORT).show();
                                         } else if (itemId == R.id.cashier_item_delete_food){
                                             // ADD CONFIRM DIALOGUE HERE
-                                            deleteItem(position);
+//                                            deleteItem(position);
+                                            String orderItemId = adapter.getRef(position).getKey();
+//                                            Log.d("OrderItemId :",""+orderItemId);
+                                            deleteItem(orderItemId);
                                         }
                                         return true;
                                     }
@@ -128,10 +135,9 @@ public class OrderDetail extends AppCompatActivity {
                                 popupMenu.show();
                             }
 
-                            private void deleteItem(int position) {
-//                                String query = String.valueOf(order.child(orderId).child("orderDetail").child(String.valueOf(position)));
-//                                System.out.println(query); CHECK RESULT..
-                                order.child(orderId).child("orderDetail").child(String.valueOf(position)).removeValue();
+                            private void deleteItem(String Id) {
+                                order.child(orderId).child("orderDetail").child(Id).removeValue();
+                                Toast.makeText(OrderDetail.this, "Item berhasil dihapus", Toast.LENGTH_SHORT).show();
                             }
                         });
 

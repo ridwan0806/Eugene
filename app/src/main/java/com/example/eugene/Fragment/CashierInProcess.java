@@ -27,6 +27,7 @@ import com.example.eugene.Interface.ItemClickListener;
 import com.example.eugene.MasterDrinks;
 import com.example.eugene.Model.Food;
 import com.example.eugene.Model.RequestOrder;
+import com.example.eugene.Model.RequestOrders;
 import com.example.eugene.OrderDetail;
 import com.example.eugene.R;
 import com.example.eugene.ViewHolder.MasterFoodViewHolder;
@@ -53,7 +54,7 @@ public class CashierInProcess extends Fragment {
     FirebaseDatabase database;
     DatabaseReference orders;
 
-    FirebaseRecyclerAdapter<RequestOrder, OrderProcessViewHolder>adapter;
+    FirebaseRecyclerAdapter<RequestOrders, OrderProcessViewHolder>adapter;
 
     ProgressDialog progressDialog;
 
@@ -122,13 +123,13 @@ public class CashierInProcess extends Fragment {
     }
 
     private void loadListProcess() {
-        FirebaseRecyclerOptions<RequestOrder> options =
-                new FirebaseRecyclerOptions.Builder<RequestOrder>()
-                        .setQuery(orders.orderByChild("time"),RequestOrder.class)
+        FirebaseRecyclerOptions<RequestOrders> options =
+                new FirebaseRecyclerOptions.Builder<RequestOrders>()
+                        .setQuery(orders.orderByChild("time"),RequestOrders.class)
                         .build();
-        adapter = new FirebaseRecyclerAdapter<RequestOrder, OrderProcessViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<RequestOrders, OrderProcessViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull OrderProcessViewHolder holder, int position, @NonNull RequestOrder model) {
+            protected void onBindViewHolder(@NonNull OrderProcessViewHolder holder, int position, @NonNull RequestOrders model) {
                 holder.custName.setText(model.getNameCustomer().toUpperCase(Locale.ROOT));
 
                 NumberFormat formatter = new DecimalFormat("#,###");

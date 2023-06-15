@@ -23,9 +23,9 @@ import android.widget.Toast;
 import com.example.eugene.Adapter.CartAdapter;
 import com.example.eugene.DashboardActivity;
 import com.example.eugene.Database.DatabaseHelper;
-import com.example.eugene.Interface.ILoadTimeFromFirebaseListener;
 import com.example.eugene.Model.Orders;
 import com.example.eugene.Model.RequestOrder;
+import com.example.eugene.Model.RequestOrders;
 import com.example.eugene.Model.Users;
 import com.example.eugene.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,8 +39,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -53,6 +53,7 @@ public class Cart extends AppCompatActivity {
     int branchId;
 
     List<Orders> orderItem = new ArrayList<>();
+//    HashMap<String,Orders> orderItems = new HashMap<>();
 
     CartAdapter cartAdapter;
 
@@ -118,7 +119,7 @@ public class Cart extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadListFood();
+//        loadListFood();
     }
 
     public void onRadioButtonClicked(View view){
@@ -225,34 +226,78 @@ public class Cart extends AppCompatActivity {
 //                Log.d("CEK_DATE",""+sdf.format(resultDate));
 
                 // PREPARE TO SUBMIT FIREBASE --
-                RequestOrder requestOrder = new RequestOrder(
-                        branchId,
-                        orderTypeId,
-                        customerTypeId,
-                        Integer.parseInt(subtotalItem.getText().toString()),
-                        1,
-                        0,
-                        fullName,
-                        customerName.getText().toString(),
-                        createDateTime.format(resultDate),
-                        date.format(resultDate),
-                        time.format(resultDate),
-                        "",
-                        "NEW",
-                        notes.getText().toString(),
-                        "",
-                        "",
-                        "",
-                        Double.parseDouble(subtotalPrice.getText().toString()),
-                        0,
-                        0,
-                        orderItem,
-                        estimatedServerTimeMs
-                );
+//                RequestOrder requestOrder = new RequestOrder(
+//                        branchId,
+//                        orderTypeId,
+//                        customerTypeId,
+//                        Integer.parseInt(subtotalItem.getText().toString()),
+//                        1,
+//                        0,
+//                        fullName,
+//                        customerName.getText().toString(),
+//                        createDateTime.format(resultDate),
+//                        date.format(resultDate),
+//                        time.format(resultDate),
+//                        "",
+//                        "NEW",
+//                        notes.getText().toString(),
+//                        "",
+//                        "",
+//                        "",
+//                        Double.parseDouble(subtotalPrice.getText().toString()),
+//                        0,
+//                        0,
+//                        orderItem,
+//                        estimatedServerTimeMs
+//                );
 
                 // SUBMIT ORDER TO FIREBASE (using system.CurrentMilli for key)
-                order.child(String.valueOf(System.currentTimeMillis()))
-                        .setValue(requestOrder);
+//                order.child(String.valueOf(System.currentTimeMillis()))
+//                        .setValue(requestOrder);
+
+                RequestOrders requestOrder = new RequestOrders();
+                requestOrder.setBranchId(branchId);
+                requestOrder.setOrderType(orderTypeId);
+                requestOrder.setCustomerType(customerTypeId);
+                requestOrder.setNameCustomer(customerName.getText().toString());
+                requestOrder.setCreateByUser(fullName);
+                requestOrder.setCreateDateTime(createDateTime.format(resultDate));
+                requestOrder.setDate(date.format(resultDate));
+                requestOrder.setTime(time.format(resultDate));
+                requestOrder.setSubtotalItem(Integer.parseInt(subtotalItem.getText().toString()));
+                requestOrder.setSubtotalPrice(Double.parseDouble(subtotalPrice.getText().toString()));
+                requestOrder.setIsEnable(1);
+                requestOrder.setIsCancel(0);
+                requestOrder.setStatus("NEW");
+                requestOrder.setNotes("");
+                requestOrder.setCancelReason("");
+                requestOrder.setEditedByUser("");
+                requestOrder.setEditDateTime("");
+                requestOrder.setNominalPayment(0);
+                requestOrder.setChange(0);
+
+                String key = order.push().getKey();
+                order.child(key).setValue(requestOrder);
+
+                // INSERT ORDER ITEMS..
+                HashMap<String,Orders> orderItems = new HashMap<>();
+                for (int i = 0; i < orderItem.size();i++){
+
+                    String id = orderItem.get(i).getId();
+                    String prodId = orderItem.get(i).getProductId();
+                    String prodName = orderItem.get(i).getProductName();
+                    int qty = orderItem.get(i).getQuantity();
+                    double price = orderItem.get(i).getPrice();
+                    double subtotal = orderItem.get(i).getSubtotal();
+
+                    Orders orders = new Orders(id,prodId,prodName,qty,price,subtotal);
+
+                    orderItems.put(order.child(key).child("orderDetail").push().getKey(), orders);
+//                    Log.d("ITEMS",""+orderItems);
+
+                    requestOrder.setOrderDetail(orderItems);
+                    order.child(key).child("orderDetail").setValue(orderItems);
+                }
 
                 // CLEAN CART (IN MEMORY DEVICE / SQLite)--
                 new DatabaseHelper(getBaseContext()).cleanCart();
