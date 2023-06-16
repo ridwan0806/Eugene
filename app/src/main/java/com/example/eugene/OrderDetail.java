@@ -13,12 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eugene.Model.Orders;
-import com.example.eugene.Model.RequestOrder;
 import com.example.eugene.Model.RequestOrders;
 import com.example.eugene.ViewHolder.OrderDetailViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -42,6 +40,7 @@ public class OrderDetail extends AppCompatActivity {
 
     String orderId = "";
     RequestOrders currentOrder;
+    Orders currentOrderItem;
     TextView orderName,orderKey;
 
     @Override
@@ -90,13 +89,13 @@ public class OrderDetail extends AppCompatActivity {
                             for (DataSnapshot dataSnapshot:ds.getChildren()){
                                 if (dataSnapshot.exists()){
                                     orderItem.add(dataSnapshot.getValue(Orders.class));
-                                    System.out.println(dataSnapshot);
+//                                    System.out.println(dataSnapshot);
                                 }
                             }
                         }
                 }
                 
-                // CREATE RECYCLER VIEW ORDER ITEM(S)..
+                // RecyclerView orderDetail
                 FirebaseRecyclerOptions<Orders> options =
                         new FirebaseRecyclerOptions.Builder<Orders>()
                                 .setQuery(order.child(orderId).child("orderDetail"),Orders.class)
@@ -137,6 +136,36 @@ public class OrderDetail extends AppCompatActivity {
 
                             private void deleteItem(String Id) {
                                 order.child(orderId).child("orderDetail").child(Id).removeValue();
+
+                                // RE-Calculate Subtotal Item & Price
+                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                                DatabaseReference newRef = rootRef.child("Orders");
+                                ValueEventListener valueEventListener = new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int newSubtotalItem = 0;
+                                        double newSubtotalPrice = 0;
+                                        for (DataSnapshot ds:snapshot.child(orderId).child("orderDetail").getChildren()){
+                                            int subtotalItem = ds.child("quantity").getValue(int.class);
+                                            double subtotalPrice = Double.valueOf(ds.child("subtotal").getValue(Long.class));
+
+                                            newSubtotalItem = newSubtotalItem + subtotalItem;
+                                            newSubtotalPrice = newSubtotalPrice + subtotalPrice;
+                                        }
+//                                        orderName.setText(String.valueOf(newSubtotalItem));
+//                                        orderKey.setText(String.valueOf(newSubtotalPrice));
+
+                                        // Update Subtotal Item & Price in Database
+                                        order.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
+                                        order.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                };
+                                newRef.addListenerForSingleValueEvent(valueEventListener);
                                 Toast.makeText(OrderDetail.this, "Item berhasil dihapus", Toast.LENGTH_SHORT).show();
                             }
                         });
