@@ -1,17 +1,21 @@
 package com.example.eugene;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +44,9 @@ public class OrderDetail extends AppCompatActivity {
 
     String orderId = "";
     RequestOrders currentOrder;
-    Orders currentOrderItem;
-    TextView orderName,orderKey;
+    TextView orderName,orderKey,editQtyOrder;
+    ImageView plusBtn,minusBtn;
+    int numberOrder = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,6 @@ public class OrderDetail extends AppCompatActivity {
         order.child(orderId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                System.out.println(snapshot);
                 currentOrder = snapshot.getValue(RequestOrders.class);
                 orderName.setText(currentOrder.getNameCustomer());
                 orderKey.setText(orderId);
@@ -120,13 +124,32 @@ public class OrderDetail extends AppCompatActivity {
                                         if (itemId == R.id.cashier_item_edit_price){
                                             Toast.makeText(OrderDetail.this, "edit price", Toast.LENGTH_SHORT).show();
                                         } else if (itemId == R.id.cashier_item_edit_qty){
-                                            Toast.makeText(OrderDetail.this, "edit qty", Toast.LENGTH_SHORT).show();
-                                        } else if (itemId == R.id.cashier_item_delete_food){
-                                            // ADD CONFIRM DIALOGUE HERE
-//                                            deleteItem(position);
                                             String orderItemId = adapter.getRef(position).getKey();
-//                                            Log.d("OrderItemId :",""+orderItemId);
-                                            deleteItem(orderItemId);
+                                            String qty = String.valueOf(adapter.getItem(position).getQuantity());
+                                            String price = String.valueOf(adapter.getItem(position).getPrice());
+                                            editQuantity(orderId,orderItemId,qty,price);
+                                        } else if (itemId == R.id.cashier_item_delete_food){
+                                            AlertDialog.Builder confirm = new AlertDialog.Builder(OrderDetail.this);
+                                            confirm.setCancelable(false);
+
+                                            confirm.setTitle("Peringatan");
+                                            confirm.setMessage("Hapus item ini ?");
+
+                                            confirm.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    String orderItemId = adapter.getRef(position).getKey();
+                                                    deleteItem(orderItemId);
+                                                }
+                                            });
+
+                                            confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            confirm.show();
                                         }
                                         return true;
                                     }
@@ -134,10 +157,10 @@ public class OrderDetail extends AppCompatActivity {
                                 popupMenu.show();
                             }
 
-                            private void deleteItem(String Id) {
-                                order.child(orderId).child("orderDetail").child(Id).removeValue();
+                            private void deleteItem(String orderItemId) {
+                                order.child(orderId).child("orderDetail").child(orderItemId).removeValue();
 
-                                // RE-Calculate Subtotal Item & Price
+                                // RE-Calculate Subtotal Item & Price (Order Parent)
                                 DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
                                 DatabaseReference newRef = rootRef.child("Orders");
                                 ValueEventListener valueEventListener = new ValueEventListener() {
@@ -152,9 +175,6 @@ public class OrderDetail extends AppCompatActivity {
                                             newSubtotalItem = newSubtotalItem + subtotalItem;
                                             newSubtotalPrice = newSubtotalPrice + subtotalPrice;
                                         }
-//                                        orderName.setText(String.valueOf(newSubtotalItem));
-//                                        orderKey.setText(String.valueOf(newSubtotalPrice));
-
                                         // Update Subtotal Item & Price in Database
                                         order.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
                                         order.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
@@ -190,5 +210,98 @@ public class OrderDetail extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void editQuantity(String orderId, String orderItemId, String qty, String price) {
+            AlertDialog.Builder editQtyDialogue = new AlertDialog.Builder(OrderDetail.this);
+            editQtyDialogue.setCancelable(false);
+
+            editQtyDialogue.setMessage("Ubah Jumlah Pesanan");
+            LayoutInflater layoutInflater = this.getLayoutInflater();
+            View editQtyLayout = layoutInflater.inflate(R.layout.orderdetail_edit_qty,null);
+            editQtyDialogue.setView(editQtyLayout);
+
+            editQtyOrder = editQtyLayout.findViewById(R.id.orderDetail_qty);
+            plusBtn = editQtyLayout.findViewById(R.id.orderDetail_BtnAddQty);
+            minusBtn = editQtyLayout.findViewById(R.id.orderDetail_BtnDeleteQty);
+
+            editQtyOrder.setText(qty);
+            numberOrder = Integer.parseInt(qty);
+
+            plusBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    numberOrder = numberOrder + 1;
+                    editQtyOrder.setText(String.valueOf(numberOrder));
+                }
+            });
+
+            minusBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (numberOrder > 1){
+                        int newNumberOrder = Integer.parseInt(editQtyOrder.getText().toString());
+                        numberOrder = newNumberOrder - 1;
+                        editQtyOrder.setText(String.valueOf(numberOrder));
+                    }
+                }
+            });
+
+            editQtyDialogue.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    int lastQty = Integer.parseInt(qty);
+                    double newSubtotal = 0;
+
+                    if (lastQty == numberOrder){
+                        Toast.makeText(OrderDetail.this, "Failed.. Jumlah Masih Sama", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Update Qty (Order Item)
+                        order.child(orderId).child("orderDetail").child(orderItemId).child("quantity").setValue(numberOrder);
+
+                        // Update Subtotal Price (Order Item)
+                        newSubtotal = numberOrder * Double.parseDouble(price);
+                        order.child(orderId).child("orderDetail").child(orderItemId).child("subtotal").setValue(newSubtotal);
+
+                        // RE-Calculate Subtotal Item & Price (Order Parent)
+                        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference newRef = rootRef.child("Orders");
+                        ValueEventListener valueEventListener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                int newSubtotalItem = 0;
+                                double newSubtotalPrice = 0;
+                                for (DataSnapshot ds:snapshot.child(orderId).child("orderDetail").getChildren()){
+                                    int subtotalItem = ds.child("quantity").getValue(int.class);
+                                    double subtotalPrice = Double.valueOf(ds.child("subtotal").getValue(Long.class));
+
+                                    newSubtotalItem = newSubtotalItem + subtotalItem;
+                                    newSubtotalPrice = newSubtotalPrice + subtotalPrice;
+                                }
+                                // Update Subtotal Item & Price in Database
+                                order.child(orderId).child("subtotalItem").setValue(newSubtotalItem);
+                                order.child(orderId).child("subtotalPrice").setValue(newSubtotalPrice);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                throw error.toException();
+                            }
+                        };
+                        newRef.addListenerForSingleValueEvent(valueEventListener);
+                        Toast.makeText(OrderDetail.this, "Jumlah berhasil di update", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            editQtyDialogue.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            editQtyDialogue.show();
+
     }
 }

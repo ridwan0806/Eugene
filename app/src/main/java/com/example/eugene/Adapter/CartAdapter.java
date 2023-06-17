@@ -28,21 +28,12 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private Context context;
-//    private HashMap<String,Orders> orderList;
-//    private ArrayList<HashMap<String,Orders>> arrayList = new ArrayList<>();
     private List<Orders> orderList;
 
     public CartAdapter(Context context, List<Orders> orderList) {
         this.context = context;
         this.orderList = orderList;
     }
-
-
-//    public CartAdapter(Context context, HashMap<String, Orders> orderList) {
-//        this.context = context;
-//        this.orderList = orderList;
-//        arrayList.add(orderList);
-//    }
 
     @NonNull
     @Override
