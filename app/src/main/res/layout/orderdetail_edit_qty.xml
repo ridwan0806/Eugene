@@ -17,11 +17,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/orderDetail_BtnAddQty"
+            android:id="@+id/orderDetail_BtnDeleteQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_add_circle" />
+            app:srcCompat="@drawable/ic_min_circle" />
 
         <TextView
             android:id="@+id/orderDetail_qty"
@@ -38,10 +38,10 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/orderDetail_BtnDeleteQty"
+            android:id="@+id/orderDetail_BtnAddQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_min_circle" />
+            app:srcCompat="@drawable/ic_add_circle" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
