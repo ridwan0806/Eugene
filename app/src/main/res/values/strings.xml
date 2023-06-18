@@ -46,17 +46,17 @@
 
     <!-- ORDER DETAIL MODULE -->
     <string name="orderDetailHeader">Detail Informasi Pesanan</string>
-        <string name="orderDetailUniqeId">Kode Transaksi :</string>
-        <string name="orderDetailDateTime">Waktu Pemesanan :</string>
+    <string name="orderDetailUniqeId">Kode Transaksi :</string>
+    <string name="orderDetailDateTime">Waktu Pemesanan :</string>
 
-        <!-- RECYCLERVIEW - ORDER PROCESS DETAIL ITEM -->
-            <string name="harga_jual">Harga Jual :</string>
-            <string name="qty">Jumlah Pesanan :</string>
-            <string name="subtotal_pesanan">Total :</string>
+    <!-- RECYCLERVIEW - ORDER PROCESS DETAIL ITEM -->
+    <string name="harga_jual">Harga Jual :</string>
+    <string name="qty">Jumlah Pesanan :</string>
+    <string name="subtotal_pesanan">Total :</string>
 
-            <string name="edit_price">Ubah Harga Jual</string>
-            <string name="edit_qty">Ubah Jumlah Pesanan</string>
-            <string name="delete_item">Hapus Item Ini</string>
+    <string name="edit_price">Ubah Harga Jual</string>
+    <string name="edit_qty">Ubah Jumlah Pesanan</string>
+    <string name="delete_item">Hapus Item Ini</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="cashier_inprocess">List In Process</string>

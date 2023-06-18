@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +49,7 @@ public class OrderDetail extends AppCompatActivity {
 
     String orderId = "";
     RequestOrders currentOrder;
-    TextView orderName,orderKey,editQtyOrder,editPriceOrder;
+    TextView orderName,orderKey,editQtyOrder,editPriceOrder,btnTambahanMenu;
     EditText editPriceOrderNew;
     ImageView plusBtn,minusBtn;
     int numberOrder = 1;
@@ -55,6 +58,8 @@ public class OrderDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+        
+        btnTambahanMenu = findViewById(R.id.btnOrderDetailMenuTambahan);
 
         orderKey = findViewById(R.id.txtOrderDetailOrderId);
         orderName = findViewById(R.id.txtOrderDetailNameCust);
@@ -72,6 +77,36 @@ public class OrderDetail extends AppCompatActivity {
         {
             getDetailOrder(orderId);
         }
+        
+        btnTambahanMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder confirm = new AlertDialog.Builder(OrderDetail.this);
+                confirm.setCancelable(false);
+                confirm.setMessage("Buat Menu Tambahan Untuk Pesanan ini ?");
+                confirm.setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent tambahanMenu = new Intent(OrderDetail.this,TambahanMenu.class);
+                        if (getIntent()!=null){
+                            String orderId = getIntent().getStringExtra("OrderId");
+                            tambahanMenu.putExtra("OrderId",orderId);
+//                            Log.d("TAG",""+orderId);
+                        }
+                        startActivity(tambahanMenu);
+//                        Toast.makeText(OrderDetail.this, "tambahan", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                confirm.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                confirm.show();
+            }
+        });
     }
 
     @Override
@@ -112,8 +147,13 @@ public class OrderDetail extends AppCompatActivity {
                     protected void onBindViewHolder(@NonNull OrderDetailViewHolder holder, @SuppressLint("RecyclerView") int position, @NonNull Orders model) {
                         holder.foodNameDetailItem.setText(model.getProductName());
                         holder.qtyDetailItem.setText(String.valueOf(model.getQuantity()));
-                        holder.priceDetailItem.setText(String.valueOf(model.getPrice()));
-                        holder.subtotalDetailItem.setText(String.valueOf(model.getSubtotal()));
+
+                        NumberFormat formatRp = new DecimalFormat("#,###");
+                        double price = model.getPrice();
+                        double subtotal = model.getSubtotal();
+
+                        holder.priceDetailItem.setText(formatRp.format(price));
+                        holder.subtotalDetailItem.setText(formatRp.format(subtotal));
 
                         holder.btnMenuDetailItem.setOnClickListener(new View.OnClickListener() {
                             @Override
